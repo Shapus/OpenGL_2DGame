@@ -7,6 +7,8 @@ package org.graphics;
 
 import com.jogamp.nativewindow.WindowClosingProtocol;
 import com.jogamp.newt.opengl.GLWindow;
+import static com.jogamp.opengl.GL.GL_GREATER;
+import static com.jogamp.opengl.GL2ES1.GL_ALPHA_TEST;
 import com.jogamp.opengl.GLCapabilities;
 import com.jogamp.opengl.GLProfile;
 import com.jogamp.opengl.util.FPSAnimator;

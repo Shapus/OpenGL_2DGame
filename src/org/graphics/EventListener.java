@@ -8,8 +8,6 @@ package org.graphics;
 import com.jogamp.opengl.GL2;
 import com.jogamp.opengl.GLAutoDrawable;
 import com.jogamp.opengl.GLEventListener;
-import java.util.Random;
-import org.resource.ImageResource;
 import org.world.World;
 
 /**
@@ -27,6 +25,8 @@ public class EventListener implements GLEventListener{
     @Override
     public void init(GLAutoDrawable drawable) {
         gl = drawable.getGL().getGL2();
+        gl.glEnable(GL2.GL_ALPHA_TEST);
+        gl.glAlphaFunc(GL2.GL_GREATER, 0.0f);
         gl.glEnable(GL2.GL_TEXTURE_2D);
         gl.glClear(GL2.GL_COLOR_BUFFER_BIT);
         gl.glClearColor(1,1,1,1);

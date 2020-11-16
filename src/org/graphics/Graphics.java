@@ -63,7 +63,6 @@ public class Graphics {
         
         
         //set figure to display color and vertexes
-        gl.glColor4f(red, green, blue, alpha);
         gl.glBegin(GL2.GL_QUADS);            
             gl.glTexCoord2f(0, 0);
             gl.glVertex2f(x - width/2, y - height/2);
