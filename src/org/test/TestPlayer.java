@@ -31,7 +31,6 @@ public class TestPlayer extends GameObject{
                             new ImageResource("/res/image_part_008.png"),
                             new ImageResource("/res/image_part_009.png"),
                             new ImageResource("/res/image_part_010.png"));
-        animation.setFps(1);
         animations.add(animation);
     }
 }

@@ -20,7 +20,7 @@ public class Animation {
     //current frame
     private int currentFrame = 0;
     //Animation FPS
-    private int fps = 8;
+    private double speed = 18;
     private long lastFrameTime = 0;
     //loop flag
     private boolean loop = true;
@@ -38,7 +38,8 @@ public class Animation {
     //=== play animation ===//
     public void play(){
         long currentTime = System.nanoTime();
-        if(currentTime > lastFrameTime + 1000000000/fps){
+        if(currentTime - lastFrameTime > 1000000000/speed){
+            lastFrameTime = System.nanoTime();
             currentFrame++;
             if(currentFrame >= frames.size()){
                 if(loop){
@@ -58,7 +59,7 @@ public class Animation {
 //=============================== GETTERS
     public List<ImageResource> getFrames() { return frames; }
     public int getFrameIndex() { return currentFrame; }
-    public int getFps() { return fps; }
+    public double getFps() { return speed; }
     public long getLastFrameTime() { return lastFrameTime; }
     public boolean isLoop() { return loop; }
 
@@ -73,7 +74,7 @@ public class Animation {
         }
     }
     public void setFrameIndex(int currentFrame) { this.currentFrame = currentFrame; }
-    public void setFps(int fps) { this.fps = fps; }
+    public void setFps(int fps) { this.speed = fps; }
     public void setLoop(boolean loop) { this.loop = loop; }
     
 }
