@@ -5,6 +5,7 @@
  */
 package org.input;
 
+import com.jogamp.newt.event.InputEvent;
 import com.jogamp.newt.event.KeyEvent;
 import com.jogamp.newt.event.KeyListener;
 
@@ -16,11 +17,18 @@ public class KeyboardInput implements KeyListener{
     private static boolean[] keys = new boolean[256];
     @Override
     public void keyPressed(KeyEvent ke) {
+        if(ke.isAutoRepeat()){
+            return;
+        }
         keys[ke.getKeyCode()] = true;
+        
     }
 
     @Override
     public void keyReleased(KeyEvent ke) {
+        if(ke.isAutoRepeat()){
+            return;
+        }
         keys[ke.getKeyCode()] = false;
     }
     

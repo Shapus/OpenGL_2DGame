@@ -52,7 +52,7 @@ public class Animation {
         }
     }
     //=== get current frame ===//
-    public ImageResource getFrame(){
+    public ImageResource getCurrentFrame(){
         return frames.get(currentFrame);
     }
     

@@ -7,6 +7,8 @@ package org.input;
 
 import com.jogamp.newt.event.MouseEvent;
 import com.jogamp.newt.event.MouseListener;
+import org.test.TestBlock;
+import org.test.TestPlayer;
 
 /**
  *
@@ -16,6 +18,7 @@ public class MouseInput implements MouseListener{
 
     @Override
     public void mouseClicked(MouseEvent me) {
+        new TestBlock(me.getX(), me.getY());
     }
 
     @Override
