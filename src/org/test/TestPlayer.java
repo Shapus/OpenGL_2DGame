@@ -5,8 +5,11 @@
  */
 package org.test;
 
+import com.jogamp.newt.event.KeyEvent;
 import java.util.ArrayList;
+import org.engine.GameLoop;
 import org.graphics.Animation;
+import org.input.KeyboardInput;
 import org.resource.ImageResource;
 import org.world.GameObject;
 
@@ -18,7 +21,6 @@ public class TestPlayer extends GameObject{
     public TestPlayer(){
         height = 2;
         width = 2;
-        
         animations = new ArrayList<Animation>();
         Animation animation = new Animation();
         animation.setFrames(new ImageResource("/res/image_part_001.png"),
@@ -32,5 +34,24 @@ public class TestPlayer extends GameObject{
                             new ImageResource("/res/image_part_009.png"),
                             new ImageResource("/res/image_part_010.png"));
         animations.add(animation);
+    }
+    @Override
+    public void update(){
+        double xInput = 0;
+        double yInput = 0;
+        if(KeyboardInput.getKey(KeyEvent.VK_W)){
+            xInput--;
+        }
+        if(KeyboardInput.getKey(KeyEvent.VK_S)){
+            xInput++;
+        }
+        if(KeyboardInput.getKey(KeyEvent.VK_A)){
+            yInput--;
+        }
+        if(KeyboardInput.getKey(KeyEvent.VK_D)){
+            yInput++;
+        }
+        posX += xInput*GameLoop.updateDelta();
+        posY += yInput*GameLoop.updateDelta();
     }
 }

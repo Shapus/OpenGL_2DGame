@@ -13,14 +13,19 @@ import com.jogamp.newt.event.KeyListener;
  * @author ASUS
  */
 public class KeyboardInput implements KeyListener{
-
+    private static boolean[] keys = new boolean[256];
     @Override
     public void keyPressed(KeyEvent ke) {
+        keys[ke.getKeyCode()] = true;
     }
 
     @Override
     public void keyReleased(KeyEvent ke) {
-        
+        keys[ke.getKeyCode()] = false;
+    }
+    
+    public static boolean getKey(int keyCode){
+        return keys[keyCode];
     }
     
 }
