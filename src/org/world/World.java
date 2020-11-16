@@ -5,18 +5,37 @@
  */
 package org.world;
 
-import org.graphics.Graphics;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
  * @author ASUS
  */
 public class World {
+    
+//=============================== VARIABLES
+    //all objects
+    private static List<GameObject> objects = new ArrayList<>();
+    
+//=============================== METHODS
+    //=== update world ===//
     public static void update(){
+        objects.forEach((ob) -> {
+            ob.update();
+        });
+    }
+    //=== renreder world ===//
+    public static void render(){
+        objects.forEach((ob) -> {
+            ob.render();
+        });
         
     }
-    public static void render(){
-        Graphics.setColor(1, 0, 0, 1);
-        Graphics.fillRect(0, 0, 1, 1);
+    
+//=============================== GETTERS
+    public static List<GameObject> getObjects() {
+        return objects;
     }
+    
 }

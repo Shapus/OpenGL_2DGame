@@ -12,6 +12,7 @@ import com.jogamp.opengl.GLProfile;
 import com.jogamp.opengl.util.FPSAnimator;
 import org.input.KeyboardInput;
 import org.input.MouseInput;
+import org.world.World;
 
 /**
  *
@@ -30,9 +31,6 @@ public class Renderer {
     
     //width in units
     private static int unitsWide = 15;
-    public static void main(String[] args){
-        Renderer.init();
-    }
     
     
     public static void init(){

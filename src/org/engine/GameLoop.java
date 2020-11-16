@@ -15,25 +15,30 @@ import org.world.World;
  * @author ASUS
  */
 public class GameLoop {
+//=============================== VARIABLES    
+    //is game loop running
     private static boolean running = false;
+    //how many times world was updated per target time
     private static int updates = 0;
+    //how many times world can update per target time
     private static final int MAX_UPDATES = 5;
+    //last update world time
     private static long lastUpdateTime = 0;
     
+    //fps
     private static int targetFPS = 60;
+    // 1/fps time
     private static final int targetTime = 1000000000 / targetFPS;
+
+//=============================== METHODS
     
+    //===start game loop in new thread ===//
     public static void start(){
         Thread thread = new Thread(){
+            @Override
             public void run(){
-                
-                //int fps = 0;
-                //long lastFpsCheck = System.nanoTime();
-                
                 running = true;
-                lastUpdateTime = System.nanoTime();
-                
-                
+                lastUpdateTime = System.nanoTime(); 
                 while(running){
                     long currentTime = System.nanoTime();
                     updates = 0;
@@ -47,16 +52,6 @@ public class GameLoop {
                     }
                     Renderer.render();
                     
-                    //fps check
-                    /*
-                    fps++;
-                    if(System.nanoTime() - 1000000000 >= lastFpsCheck){
-                        System.out.println(fps);
-                        fps = 0;
-                        lastFpsCheck = System.nanoTime();
-                    }
-                    */
-                    
                     long timeTaken = System.nanoTime() - currentTime;
                     if(targetTime > timeTaken){
                         try {
@@ -65,27 +60,6 @@ public class GameLoop {
                             Logger.getLogger(GameLoop.class.getName()).log(Level.SEVERE, null, ex);
                         }
                     }
-                    
-                    /*
-                    long startTime = System.nanoTime();
-                    
-                    // Poll input
-                    // Update game(moving objects, calculating phisics, game logic and etc.)
-                    // If game will be complex and there is many items to update, should separate update and render
-                    World.update();
-                    
-                    // Render(drawing objects)
-                    Renderer.render();
-                    
-                    long timeTaken = System.nanoTime() - startTime;
-                    if(timeTaken < targetTime){
-                        try {
-                            Thread.sleep((targetTime - timeTaken) / 1000000); //divide by 1000000 cause Thread.sleep() get time in milliseconds
-                        } catch (InterruptedException ex) {
-                            Logger.getLogger(GameLoop.class.getName()).log(Level.SEVERE, null, ex);
-                        }
-                    }
-                    */
                 }
             }
         };

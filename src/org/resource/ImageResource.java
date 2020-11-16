@@ -20,12 +20,15 @@ import org.graphics.Renderer;
  * @author ASUS
  */
 public class ImageResource {
+    
+//=============================== VARIABLES
     //OpenGL texture object
     private Texture texture = null;
-    
     //The buffered image of this image
     private BufferedImage image = null;
-    
+
+//=============================== CONSTRUCTORS
+    //=== load image from path ===//
     public ImageResource(String path){
         URL url = ImageResource.class.getResource(path);
         try {
@@ -37,7 +40,9 @@ public class ImageResource {
             image.flush();
         }
     }
-    
+
+//=============================== METHODS
+    //=== get image texture ===//
     public Texture getTexture(){
         if(image == null){
             return null;

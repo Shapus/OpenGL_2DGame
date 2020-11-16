@@ -6,6 +6,7 @@
 package org.engine;
 
 import org.graphics.Renderer;
+import org.test.TestPlayer;
 
 /**
  *
@@ -13,6 +14,8 @@ import org.graphics.Renderer;
  */
 public class Main {
     public static void main(String[] args){
+        TestPlayer player = new TestPlayer();
+        System.out.println(player.getAnimation());
         Renderer.init();
         GameLoop.start();
     }

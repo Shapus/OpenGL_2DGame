@@ -14,6 +14,8 @@ import org.resource.ImageResource;
  * @author ASUS
  */
 public class Graphics {
+    
+//=============================== VARIABLES    
     //color values
     static private float red = 1;
     static private float green = 1;
@@ -22,7 +24,9 @@ public class Graphics {
     
     //rotation in degrees
     static private float rotation = 0;
-    
+
+//=============================== METHODS
+    //=== draw rect ===//
     public static void fillRect(float x, float y, float width, float height){
         
         //get GL2 object
@@ -45,6 +49,7 @@ public class Graphics {
         gl.glRotatef(rotation, 0, 0, 1);
         gl.glTranslatef(-x, -y, 0);
     }
+    //=== draw image ===//
     public static void drawImage(ImageResource image, float x, float y, float width, float height){
         
         //get GL2 Object
