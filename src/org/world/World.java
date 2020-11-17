@@ -17,6 +17,7 @@ public class World {
 //=============================== VARIABLES
     //all objects
     private static List<GameObject> objects = new ArrayList<>();
+    public static List<GameObject> objectsBuffer = new ArrayList<>();
     
 //=============================== METHODS
     //=== update world ===//
@@ -32,10 +33,17 @@ public class World {
         });
         
     }
+    //=== copy objects from objectsBuffer to objects list ===//
+    public static void loadObjectsFromBuffer(){
+        if(!objectsBuffer.isEmpty()){
+            objectsBuffer.forEach(ob->objects.add(ob));
+            objectsBuffer.clear();
+        }
+    }
     
 //=============================== GETTERS
-    public static List<GameObject> getObjects() {
-        return objects;
+    public static List<GameObject> getObjectsBuffer() {
+        return objectsBuffer;
     }
     
 }

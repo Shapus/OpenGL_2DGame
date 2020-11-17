@@ -40,6 +40,7 @@ public class GameLoop {
                 running = true;
                 lastUpdateTime = System.nanoTime(); 
                 while(running){
+                    World.loadObjectsFromBuffer();
                     long currentTime = System.nanoTime();
                     updates = 0;
                     while(currentTime - lastUpdateTime >= targetTime){

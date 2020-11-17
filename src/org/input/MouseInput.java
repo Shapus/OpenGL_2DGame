@@ -7,18 +7,26 @@ package org.input;
 
 import com.jogamp.newt.event.MouseEvent;
 import com.jogamp.newt.event.MouseListener;
+import org.graphics.EventListener;
+import org.graphics.Renderer;
 import org.test.TestBlock;
-import org.test.TestPlayer;
 
 /**
  *
  * @author ASUS
  */
 public class MouseInput implements MouseListener{
-
+    float[][] translationMatrix = {{1,0},{-Renderer.getWindowWidth()/EventListener.getUnitsWide()/2, -Renderer.getWindowHeight()/EventListener.getUnitsTall()/2}};
+    //{0,0} -> {-width/unitWide/2, -width/unitTall/2}
     @Override
     public void mouseClicked(MouseEvent me) {
-        new TestBlock(me.getX(), me.getY());
+        float x = (me.getX()-Renderer.getWindowWidth()/2)/EventListener.getUnitsWide();
+        float y = -(me.getY()-Renderer.getWindowHeight()/2)/EventListener.getUnitsTall();
+        System.out.println("Pixels " + me.getX() + " : " + me.getY());
+        System.out.println("Units " + x + " : " + y);
+        System.out.println("Unit size " + EventListener.getUnitsWide() + " : " + EventListener.getUnitsTall());
+        System.out.println("");
+        new TestBlock(x,y);
     }
 
     @Override

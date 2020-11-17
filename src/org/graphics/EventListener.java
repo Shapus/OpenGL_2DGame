@@ -19,6 +19,8 @@ public class EventListener implements GLEventListener{
 //=============================== VARIABLES
     //opengl unit
     public static GL2 gl = null;
+    private static float unitsTall = 0;
+    private static float unitsWide = 0;
 
 //=============================== METHODS
     //=== initialisation ===//
@@ -57,9 +59,24 @@ public class EventListener implements GLEventListener{
         //set resize window translation matrix 
         gl.glMatrixMode(GL2.GL_PROJECTION);
         gl.glLoadIdentity();
-        int unitsTall = Renderer.getWindowHeight() / (Renderer.getWindowWidth()/Renderer.getUnitsWide());
-        gl.glOrtho(-Renderer.getUnitsWide()/2, Renderer.getUnitsWide()/2, -unitsTall/2, unitsTall/2, 1, -1);        
+        unitsWide = Renderer.getUnitsWide();
+        unitsTall = Renderer.getWindowHeight() / (Renderer.getWindowWidth()/unitsWide);
+        
+        //for units      
+        gl.glOrtho(-unitsWide, unitsWide, -unitsTall, unitsTall, 1, -1);  
+
+        //for pixels (number of units == number of pixels)   
+        //gl.glOrtho(0, Renderer.getWindowHeight(), Renderer.getWindowWidth(), 0, 0, 1);
+
         gl.glMatrixMode(GL2.GL_MODELVIEW);
+    }
+ 
+//=============================== GETTERS
+    public static float getUnitsTall() {
+        return unitsTall;
+    }
+    public static float getUnitsWide() {
+        return unitsWide;
     }
     
 }

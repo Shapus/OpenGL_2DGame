@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import org.graphics.Animation;
 import org.resource.ImageResource;
 import org.world.GameObject;
+import org.world.World;
 
 /**
  *
@@ -20,13 +21,12 @@ public class TestBlock extends GameObject{
         this.posX = posX;
         this.posY = posY;
         this.
-        height = 2;
-        width = 2;
-        animations = new ArrayList<Animation>();
+        height = 1;
+        width = 1;
+        setAnimations(new ArrayList<Animation>());
         Animation animation = new Animation();
         animation.setFrames(new ImageResource("/res/textures/stone_wall.png"));
-        System.out.println(animation.getCurrentFrame());
         animations.add(animation);
-        System.out.println(animations.size());
+        World.getObjectsBuffer().add(this);
     }
 }

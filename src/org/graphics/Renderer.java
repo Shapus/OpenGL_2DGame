@@ -43,7 +43,7 @@ public class Renderer {
         //set window parametrs
         window = GLWindow.create(caps);
         window.setSize(screenWidth, screenHeight);
-        window.setResizable(true);
+        window.setResizable(false);
         window.addGLEventListener(new EventListener());
         window.addMouseListener(new MouseInput());
         window.addKeyListener(new KeyboardInput());

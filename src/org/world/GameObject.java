@@ -32,7 +32,7 @@ public abstract class GameObject {
 
 //=============================== CONSTRUCTORS
     protected GameObject(){
-        World.getObjects().add(this);
+        
     }
     
 //=============================== METHODS   
@@ -40,17 +40,11 @@ public abstract class GameObject {
         //release in subclasses
     }
     public void render(){
-        try{
         animations.get(currentAnimation).play();
         ImageResource image = animations.get(currentAnimation).getCurrentFrame();
         Graphics.setRotation(rotation);
         Graphics.drawImage(image, posX, posY, width, height);
         Graphics.setRotation(0);
-        }catch(Exception e){
-            //System.out.println(animations.size());
-            //System.out.println(e);
-            return;
-        }
     }
     
 //=============================== GETTERS

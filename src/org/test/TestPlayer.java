@@ -12,6 +12,7 @@ import org.graphics.Animation;
 import org.input.KeyboardInput;
 import org.resource.ImageResource;
 import org.world.GameObject;
+import org.world.World;
 
 /**
  *
@@ -20,8 +21,10 @@ import org.world.GameObject;
 public class TestPlayer extends GameObject{
     double speedAlpha = 3;
     public TestPlayer(){
-        height = 2;
-        width = 2;
+        height = 1;
+        width = 1;
+        posX = 0;
+        posY = 0;
         animations = new ArrayList<Animation>();
         Animation animation = new Animation();
         animation.setFrames(new ImageResource("/res/sprites/coin/image_part_001.png"),
@@ -35,6 +38,7 @@ public class TestPlayer extends GameObject{
                             new ImageResource("/res/sprites/coin/image_part_009.png"),
                             new ImageResource("/res/sprites/coin/image_part_010.png"));
         animations.add(animation);
+        World.getObjectsBuffer().add(this);
     }
     @Override
     public void update(){
