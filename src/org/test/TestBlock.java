@@ -20,9 +20,8 @@ public class TestBlock extends GameObject{
     public TestBlock(float posX, float posY){
         this.posX = posX;
         this.posY = posY;
-        this.
-        height = 1;
-        width = 1;
+        height = 100;
+        width = 100;
         setAnimations(new ArrayList<Animation>());
         Animation animation = new Animation();
         animation.setFrames(new ImageResource("/res/textures/stone_wall.png"));

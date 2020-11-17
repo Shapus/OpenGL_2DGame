@@ -20,11 +20,13 @@ import org.world.World;
  */
 public class TestPlayer extends GameObject{
     double speedAlpha = 3;
+    private int speed = 100;
     public TestPlayer(){
-        height = 1;
-        width = 1;
-        posX = 0;
-        posY = 0;
+        height = 100;
+        width = 100;
+        posX = 500;
+        posY = 400;
+        
         animations = new ArrayList<Animation>();
         Animation animation = new Animation();
         animation.setFrames(new ImageResource("/res/sprites/coin/image_part_001.png"),
@@ -45,16 +47,16 @@ public class TestPlayer extends GameObject{
         double xInput = 0;
         double yInput = 0;
         if(KeyboardInput.getKey(KeyEvent.VK_W)){
-            yInput++;
+            yInput-= speed;
         }
         if(KeyboardInput.getKey(KeyEvent.VK_S)){
-            yInput--;
+            yInput+= speed;;
         }
         if(KeyboardInput.getKey(KeyEvent.VK_A)){
-            xInput--;
+            xInput-= speed;;
         }
         if(KeyboardInput.getKey(KeyEvent.VK_D)){
-            xInput++;
+            xInput+= speed;;
         }
         posX += xInput*GameLoop.updateDelta()*speedAlpha;
         posY += yInput*GameLoop.updateDelta()*speedAlpha;
