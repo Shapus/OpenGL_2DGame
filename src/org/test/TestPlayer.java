@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import org.engine.GameLoop;
 import org.graphics.Animation;
 import org.input.KeyboardInput;
-import org.resource.ImageResource;
+import org.resources.Loader;
 import org.world.GameObject;
 import org.world.World;
 
@@ -29,16 +29,7 @@ public class TestPlayer extends GameObject{
         
         animations = new ArrayList<Animation>();
         Animation animation = new Animation();
-        animation.setFrames(new ImageResource("/res/sprites/coin/image_part_001.png"),
-                            new ImageResource("/res/sprites/coin/image_part_002.png"),
-                            new ImageResource("/res/sprites/coin/image_part_003.png"),
-                            new ImageResource("/res/sprites/coin/image_part_004.png"),
-                            new ImageResource("/res/sprites/coin/image_part_005.png"),
-                            new ImageResource("/res/sprites/coin/image_part_006.png"),
-                            new ImageResource("/res/sprites/coin/image_part_007.png"),
-                            new ImageResource("/res/sprites/coin/image_part_008.png"),
-                            new ImageResource("/res/sprites/coin/image_part_009.png"),
-                            new ImageResource("/res/sprites/coin/image_part_010.png"));
+        animation.setFrames(Loader.getImages("coin"));
         animations.add(animation);
         World.getObjectsBuffer().add(this);
     }
@@ -50,15 +41,23 @@ public class TestPlayer extends GameObject{
             yInput-= speed;
         }
         if(KeyboardInput.getKey(KeyEvent.VK_S)){
-            yInput+= speed;;
+            yInput+= speed;
         }
         if(KeyboardInput.getKey(KeyEvent.VK_A)){
-            xInput-= speed;;
+            xInput-= speed;
         }
         if(KeyboardInput.getKey(KeyEvent.VK_D)){
-            xInput+= speed;;
+            xInput+= speed;
         }
         posX += xInput*GameLoop.updateDelta()*speedAlpha;
         posY += yInput*GameLoop.updateDelta()*speedAlpha;
+        World.getObjects().forEach((ob) -> {
+            if(ob.collide(this)){
+                posX = oldPosX;
+                posY = oldPosY;
+            }
+        });
+        oldPosX = posX;
+        oldPosY = posY;
     }
 }

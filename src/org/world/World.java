@@ -45,5 +45,8 @@ public class World {
     public static List<GameObject> getObjectsBuffer() {
         return objectsBuffer;
     }
+    public static List<GameObject> getObjects() {
+        return objects;
+    }
     
 }

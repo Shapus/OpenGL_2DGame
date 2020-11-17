@@ -8,6 +8,7 @@ package org.test;
 import java.util.ArrayList;
 import org.graphics.Animation;
 import org.resource.ImageResource;
+import org.resources.Loader;
 import org.world.GameObject;
 import org.world.World;
 
@@ -24,7 +25,7 @@ public class TestBlock extends GameObject{
         width = 100;
         setAnimations(new ArrayList<Animation>());
         Animation animation = new Animation();
-        animation.setFrames(new ImageResource("/res/textures/stone_wall.png"));
+        animation.setFrames(Loader.getImages("wall"));
         animations.add(animation);
         World.getObjectsBuffer().add(this);
     }

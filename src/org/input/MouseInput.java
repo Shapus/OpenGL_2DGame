@@ -7,6 +7,7 @@ package org.input;
 
 import com.jogamp.newt.event.MouseEvent;
 import com.jogamp.newt.event.MouseListener;
+import org.engine.Main;
 import org.graphics.EventListener;
 import org.graphics.Renderer;
 import org.test.TestBlock;
@@ -40,6 +41,7 @@ public class MouseInput implements MouseListener{
 
     @Override
     public void mouseMoved(MouseEvent me) {
+        Main.player.setPosition(me.getX(), me.getY());
     }
 
     @Override

@@ -14,12 +14,14 @@ import org.resource.ImageResource;
  *
  * @author pupil
  */
-public abstract class GameObject {
+public abstract class GameObject{
     
 //=============================== VARIABLES    
     //position
     protected float posX;
     protected float posY;
+    protected float oldPosX;
+    protected float oldPosY;
     //size
     protected float height;
     protected float width;
@@ -40,11 +42,31 @@ public abstract class GameObject {
         //release in subclasses
     }
     public void render(){
-        animations.get(currentAnimation).play();
+        try{
+            animations.get(currentAnimation).play();
         ImageResource image = animations.get(currentAnimation).getCurrentFrame();
         Graphics.setRotation(rotation);
         Graphics.drawImage(image, posX, posY, width, height);
         Graphics.setRotation(0);
+        }catch(Exception e){
+            return;
+        }
+    }
+
+    public boolean collide(GameObject ob){
+        if(ob != this){
+            if(Math.abs(this.getPosX()-ob.getPosX()) < this.getWidth()/2+ob.getWidth()/2){
+                if(Math.abs(this.getPosY()-ob.getPosY()) < this.getHeight()/2+ob.getHeight()/2){
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+    
+    public void setPosition(float posX, float posY) {
+        this.posX = posX;
+        this.posY = posY;
     }
     
 //=============================== GETTERS

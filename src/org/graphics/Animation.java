@@ -41,7 +41,7 @@ public class Animation {
         if(currentTime - lastFrameTime > 1000000000/speed){
             lastFrameTime = System.nanoTime();
             currentFrame++;
-            if(currentFrame >= frames.size()){
+            if(currentFrame >= frames.size() && !frames.isEmpty()){
                 if(loop){
                     currentFrame %= frames.size();
                 }
