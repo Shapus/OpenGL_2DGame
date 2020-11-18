@@ -19,12 +19,13 @@ import org.world.World;
  * @author pupil
  */
 public class TestPlayer extends GameObject{
-    double speedAlpha = 3;
-    private int speed = 100;
-    public TestPlayer(){
-        height = 100;
-        width = 100;
-        posX = 500;
+    double speedAlpha = 1;
+    private int speed = 1;
+    public TestPlayer(float posX, float posY){
+        super(posX, posY);
+        height = 1;
+        width = 1;
+        posX = 0;
         posY = 400;
         
         animations = new ArrayList<Animation>();
@@ -38,10 +39,10 @@ public class TestPlayer extends GameObject{
         double xInput = 0;
         double yInput = 0;
         if(KeyboardInput.getKey(KeyEvent.VK_W)){
-            yInput-= speed;
+            yInput+= speed;
         }
         if(KeyboardInput.getKey(KeyEvent.VK_S)){
-            yInput+= speed;
+            yInput-= speed;
         }
         if(KeyboardInput.getKey(KeyEvent.VK_A)){
             xInput-= speed;

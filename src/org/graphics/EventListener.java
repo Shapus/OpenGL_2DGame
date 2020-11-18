@@ -63,10 +63,10 @@ public class EventListener implements GLEventListener{
         unitsTall = Renderer.getWindowHeight() / (Renderer.getWindowWidth()/unitsWide);
         
         //for units, origin == center of the window    
-        //gl.glOrtho(-unitsWide/2, unitsWide/2, -unitsTall/2, unitsTall/2, 1, -1);  
+        gl.glOrtho(-unitsWide/2, unitsWide/2, -unitsTall/2, unitsTall/2, 1, -1);  
 
         //for pixels (number of units == number of pixels), origin == top left corner   
-        gl.glOrtho(0, Renderer.getWindowWidth(), Renderer.getWindowHeight(), 0, 0, 1);
+        //gl.glOrtho(0, Renderer.getWindowWidth(), Renderer.getWindowHeight(), 0, 0, 1);
 
         gl.glMatrixMode(GL2.GL_MODELVIEW);
     }

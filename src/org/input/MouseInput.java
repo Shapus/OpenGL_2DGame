@@ -17,9 +17,27 @@ import org.test.TestBlock;
  * @author ASUS
  */
 public class MouseInput implements MouseListener{
+    
+//=============================== VARIABLES    
+    private float x = 0;
+    private float y = 0;
+ 
+    
+//=============================== GETTERS    
+    public float getX(){
+        return EventListener.getUnitsWide()/Renderer.getWindowWidth()*(x-Renderer.getWindowWidth()/2);
+    }
+    public float getY(){
+        return -EventListener.getUnitsTall()/Renderer.getWindowHeight()*(y-Renderer.getWindowHeight()/2);
+    }
+    
+    
+//=============================== OVERRIDE METHODS    
     @Override
     public void mouseClicked(MouseEvent me) {
-        new TestBlock(me.getX(),me.getY());
+        this.x = me.getX();
+        this.y = me.getY();
+        new TestBlock(getX(),getY());
     }
 
     @Override
@@ -41,7 +59,9 @@ public class MouseInput implements MouseListener{
 
     @Override
     public void mouseMoved(MouseEvent me) {
-        Main.player.setPosition(me.getX(), me.getY());
+        this.x = me.getX();
+        this.y = me.getY();
+        Main.player.setPosition(getX(), getY());
     }
 
     @Override

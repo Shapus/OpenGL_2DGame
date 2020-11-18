@@ -30,7 +30,7 @@ public class Main {
             "/res/sprites/coin/image_part_009.png" 
         };
         Loader.load("coin", paths);
-        player = new TestPlayer();
+        player = new TestPlayer(0,0);
         Renderer.init();
         GameLoop.start();
     }

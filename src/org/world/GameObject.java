@@ -8,6 +8,7 @@ package org.world;
 import java.util.List;
 import org.graphics.Animation;
 import org.graphics.Graphics;
+import org.graphics.Renderer;
 import org.resource.ImageResource;
 
 /**
@@ -33,8 +34,9 @@ public abstract class GameObject{
     protected int currentAnimation = 0;
 
 //=============================== CONSTRUCTORS
-    protected GameObject(){
-        
+    protected GameObject(float posX, float posY){
+        this.posX = posX;
+        this.posY = posY;
     }
     
 //=============================== METHODS   
@@ -46,7 +48,7 @@ public abstract class GameObject{
             animations.get(currentAnimation).play();
         ImageResource image = animations.get(currentAnimation).getCurrentFrame();
         Graphics.setRotation(rotation);
-        Graphics.drawImage(image, posX, posY, width, height);
+        Graphics.drawImage(image, posX-Renderer.getCameraX(), posY-Renderer.getCameraY(), width, height);
         Graphics.setRotation(0);
         }catch(Exception e){
             return;

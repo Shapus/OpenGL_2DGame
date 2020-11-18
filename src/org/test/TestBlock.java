@@ -17,12 +17,10 @@ import org.world.World;
  * @author ASUS
  */
 public class TestBlock extends GameObject{
-    double speedAlpha = 3;
     public TestBlock(float posX, float posY){
-        this.posX = posX;
-        this.posY = posY;
-        height = 100;
-        width = 100;
+        super(posX, posY);
+        height = 1;
+        width = 1;
         setAnimations(new ArrayList<Animation>());
         Animation animation = new Animation();
         animation.setFrames(Loader.getImages("wall"));

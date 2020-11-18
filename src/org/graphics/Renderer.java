@@ -6,9 +6,11 @@
 package org.graphics;
 
 import com.jogamp.nativewindow.WindowClosingProtocol;
+import com.jogamp.newt.event.KeyEvent;
 import com.jogamp.newt.opengl.GLWindow;
 import com.jogamp.opengl.GLCapabilities;
 import com.jogamp.opengl.GLProfile;
+import org.engine.GameLoop;
 import org.input.KeyboardInput;
 import org.input.MouseInput;
 
@@ -17,6 +19,8 @@ import org.input.MouseInput;
  * @author ASUS
  */
 public class Renderer {
+    
+//=============================== VARIABLES
     //GL profile
     private static GLProfile profile = null;
     
@@ -27,10 +31,15 @@ public class Renderer {
     private static int screenWidth = 800;
     private static int screenHeight = 600;
     
+    //camera coords
+    private static float cameraX = 0;
+    private static float cameraY = 0;
+    
     //width in units
-    private static int unitsWide = 15;
+    private static int unitsWide = 20;
     
-    
+
+//=============================== METHODS
     public static void init(){
         GLProfile.initSingleton();
         
@@ -57,11 +66,28 @@ public class Renderer {
         if(window == null){
             return;
         }
+        float speed = 3;
+        double xInput = 0;
+        double yInput = 0;
+        if(KeyboardInput.getKey(KeyEvent.VK_UP)){
+            yInput+= speed;
+        }
+        if(KeyboardInput.getKey(KeyEvent.VK_DOWN)){
+            yInput-= speed;
+        }
+        if(KeyboardInput.getKey(KeyEvent.VK_LEFT)){
+            xInput-= speed;
+        }
+        if(KeyboardInput.getKey(KeyEvent.VK_RIGHT)){
+            xInput+= speed;
+        }
+        cameraX += xInput*GameLoop.updateDelta();
+        cameraY += yInput*GameLoop.updateDelta();
         window.display();
     }
     
     
-    //getters
+//=============================== GETTERS
     public static int getWindowWidth(){
         return window.getWidth();
     }
@@ -73,5 +99,11 @@ public class Renderer {
     }
     public static GLProfile getProfile(){
         return profile;
+    }
+    public static float getCameraX() {
+        return cameraX;
+    }
+    public static float getCameraY() {
+        return cameraY;
     }
 }
