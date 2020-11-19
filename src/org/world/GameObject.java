@@ -48,7 +48,7 @@ public abstract class GameObject{
             animations.get(currentAnimation).play();
         ImageResource image = animations.get(currentAnimation).getCurrentFrame();
         Graphics.setRotation(rotation);
-        Graphics.drawImage(image, posX-Renderer.getCameraX(), posY-Renderer.getCameraY(), width, height);
+        Graphics.drawImage(image, Renderer.toLocalX(posX), Renderer.toLocalY(posY), width, height);
         Graphics.setRotation(0);
         }catch(Exception e){
             return;

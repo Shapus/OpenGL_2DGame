@@ -21,6 +21,7 @@ public class MouseInput implements MouseListener{
 //=============================== VARIABLES    
     private float x = 0;
     private float y = 0;
+    public boolean[] events = new boolean[8];
  
     
 //=============================== GETTERS    
@@ -37,7 +38,7 @@ public class MouseInput implements MouseListener{
     public void mouseClicked(MouseEvent me) {
         this.x = me.getX();
         this.y = me.getY();
-        new TestBlock(getX(),getY());
+        new TestBlock(Renderer.toGlobalX(getX()),Renderer.toGlobalY(getY()));
     }
 
     @Override
@@ -51,17 +52,21 @@ public class MouseInput implements MouseListener{
 
     @Override
     public void mousePressed(MouseEvent me) {
+        
     }
 
     @Override
     public void mouseReleased(MouseEvent me) {
+        events[0] = false;
     }
 
     @Override
     public void mouseMoved(MouseEvent me) {
         this.x = me.getX();
         this.y = me.getY();
-        Main.player.setPosition(getX(), getY());
+        Main.player.setPosition(Renderer.toGlobalX(getX()),Renderer.toGlobalY(getY()));
+        new TestBlock(Renderer.toGlobalX(getX()),Renderer.toGlobalY(getY()));
+        return;
     }
 
     @Override

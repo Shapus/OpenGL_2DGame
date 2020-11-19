@@ -81,11 +81,24 @@ public class Renderer {
         if(KeyboardInput.getKey(KeyEvent.VK_RIGHT)){
             xInput+= speed;
         }
-        cameraX += xInput*GameLoop.updateDelta();
-        cameraY += yInput*GameLoop.updateDelta();
+        cameraX += xInput*GameLoop.updateDelta()*2;
+        cameraY += yInput*GameLoop.updateDelta()*2;
         window.display();
     }
     
+    public static float toGlobalX(float x){
+        return x+getCameraX();
+    }
+    public static float toGlobalY(float y){
+        return y+getCameraY();
+    }
+    
+    public static float toLocalX(float x){
+        return x-getCameraX();
+    }
+    public static float toLocalY(float y){
+        return y-getCameraY();
+    }
     
 //=============================== GETTERS
     public static int getWindowWidth(){
@@ -106,4 +119,5 @@ public class Renderer {
     public static float getCameraY() {
         return cameraY;
     }
+    
 }
