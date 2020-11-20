@@ -8,6 +8,7 @@ package org.engine;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.graphics.Renderer;
+import org.input.MouseInput;
 import org.world.World;
 
 /**
@@ -52,7 +53,7 @@ public class GameLoop {
                         }
                     }
                     Renderer.render();
-                    
+                    MouseInput.create();
                     long timeTaken = System.nanoTime() - currentTime;
                     if(targetTime > timeTaken){
                         try {
@@ -61,6 +62,7 @@ public class GameLoop {
                             Logger.getLogger(GameLoop.class.getName()).log(Level.SEVERE, null, ex);
                         }
                     }
+                    MouseInput.updatePosition();
                 }
             }
         };

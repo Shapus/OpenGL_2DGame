@@ -25,6 +25,13 @@ public class TestBlock extends GameObject{
         Animation animation = new Animation();
         animation.setFrames(Loader.getImages("wall"));
         animations.add(animation);
-        World.getObjectsBuffer().add(this);
+    }
+
+    @Override
+    public void update() {
+    }
+
+    @Override
+    public void fall() {
     }
 }

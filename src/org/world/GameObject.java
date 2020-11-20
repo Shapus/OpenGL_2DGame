@@ -40,15 +40,14 @@ public abstract class GameObject{
     }
     
 //=============================== METHODS   
-    public void update(){
-        //release in subclasses
-    }
+    public abstract void update();
+    public abstract void fall();
     public void render(){
         try{
-            animations.get(currentAnimation).play();
+        animations.get(currentAnimation).play();
         ImageResource image = animations.get(currentAnimation).getCurrentFrame();
         Graphics.setRotation(rotation);
-        Graphics.drawImage(image, Renderer.toLocalX(posX), Renderer.toLocalY(posY), width, height);
+        Graphics.drawImage(image, Renderer.toLocalX(posX)-width/2, Renderer.toLocalY(posY)-height/2, width, height);
         Graphics.setRotation(0);
         }catch(Exception e){
             return;

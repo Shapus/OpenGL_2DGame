@@ -40,6 +40,9 @@ public class World {
             objectsBuffer.clear();
         }
     }
+    public static void add(GameObject go){
+        getObjectsBuffer().add(go);
+    }
     
 //=============================== GETTERS
     public static List<GameObject> getObjectsBuffer() {

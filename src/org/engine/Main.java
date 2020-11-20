@@ -8,6 +8,7 @@ package org.engine;
 import org.graphics.Renderer;
 import org.resources.Loader;
 import org.test.TestPlayer;
+import org.world.World;
 
 /**
  *
@@ -17,6 +18,7 @@ public class Main {
     public static TestPlayer player;
     public static void main(String[] args){
         Loader.load("wall", "/res/textures/stone_wall.png");
+        Loader.load("cat", "/res/cat.jpg");
         String[] paths = {
             "/res/sprites/coin/image_part_000.png",
             "/res/sprites/coin/image_part_001.png",
@@ -31,6 +33,7 @@ public class Main {
         };
         Loader.load("coin", paths);
         player = new TestPlayer(0,0);
+        World.add(player);
         Renderer.init();
         GameLoop.start();
     }

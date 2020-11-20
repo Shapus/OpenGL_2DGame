@@ -7,6 +7,7 @@ package org.graphics;
 
 import com.jogamp.nativewindow.WindowClosingProtocol;
 import com.jogamp.newt.event.KeyEvent;
+import com.jogamp.newt.event.MouseListener;
 import com.jogamp.newt.opengl.GLWindow;
 import com.jogamp.opengl.GLCapabilities;
 import com.jogamp.opengl.GLProfile;
@@ -56,7 +57,6 @@ public class Renderer {
         window.addGLEventListener(new EventListener());
         window.addMouseListener(new MouseInput());
         window.addKeyListener(new KeyboardInput());
-
         window.setVisible(true);
         window.setDefaultCloseOperation(WindowClosingProtocol.WindowClosingMode.DISPOSE_ON_CLOSE);    
     }
@@ -70,10 +70,10 @@ public class Renderer {
         double xInput = 0;
         double yInput = 0;
         if(KeyboardInput.getKey(KeyEvent.VK_UP)){
-            yInput+= speed;
+            yInput-= speed;
         }
         if(KeyboardInput.getKey(KeyEvent.VK_DOWN)){
-            yInput-= speed;
+            yInput+= speed;
         }
         if(KeyboardInput.getKey(KeyEvent.VK_LEFT)){
             xInput-= speed;
@@ -98,6 +98,9 @@ public class Renderer {
     }
     public static float toLocalY(float y){
         return y-getCameraY();
+    }
+    public static MouseListener getML(){
+        return window.getMouseListener(0);
     }
     
 //=============================== GETTERS

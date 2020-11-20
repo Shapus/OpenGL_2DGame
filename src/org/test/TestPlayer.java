@@ -19,36 +19,41 @@ import org.world.World;
  * @author pupil
  */
 public class TestPlayer extends GameObject{
-    double speedAlpha = 1;
-    private int speed = 1;
+    private double speedAlpha = 1;
+    private int speed = 6;
+    private int jumpIteration = 0;
+    private int maxJumpIterations = 10;
+    private boolean isJumping = false;
     public TestPlayer(float posX, float posY){
         super(posX, posY);
         height = 1;
         width = 1;
-        posX = 0;
-        posY = 400;
         
         animations = new ArrayList<Animation>();
         Animation animation = new Animation();
-        animation.setFrames(Loader.getImages("coin"));
+        animation.setFrames(Loader.getImages("cat"));
         animations.add(animation);
-        World.getObjectsBuffer().add(this);
+        setPosX(posX+width/2);
+        setPosY(posY+height/2);
     }
     @Override
     public void update(){
         double xInput = 0;
         double yInput = 0;
         if(KeyboardInput.getKey(KeyEvent.VK_W)){
-            yInput+= speed;
+            yInput-= speed;
         }
         if(KeyboardInput.getKey(KeyEvent.VK_S)){
-            yInput-= speed;
+            yInput+= speed;
         }
         if(KeyboardInput.getKey(KeyEvent.VK_A)){
             xInput-= speed;
         }
         if(KeyboardInput.getKey(KeyEvent.VK_D)){
             xInput+= speed;
+        }
+        if(KeyboardInput.getKey(KeyEvent.VK_SPACE)){
+            jump();
         }
         posX += xInput*GameLoop.updateDelta()*speedAlpha;
         posY += yInput*GameLoop.updateDelta()*speedAlpha;
@@ -61,4 +66,15 @@ public class TestPlayer extends GameObject{
         oldPosX = posX;
         oldPosY = posY;
     }
+
+    @Override
+    public void fall() {
+        
+    }
+    
+    public void jump(){
+
+        
+    }
+    
 }
