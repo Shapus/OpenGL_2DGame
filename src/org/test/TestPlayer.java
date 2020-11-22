@@ -20,10 +20,10 @@ import org.world.World;
  */
 public class TestPlayer extends GameObject{
     private double speedAlpha = 1;
-    private int speed = 6;
+    private int speed = 1;
     private int jumpIteration = 0;
     private int maxJumpIterations = 10;
-    private boolean isJumping = false;
+    private int isJumping = 0;
     public TestPlayer(float posX, float posY){
         super(posX, posY);
         height = 1;
@@ -41,7 +41,7 @@ public class TestPlayer extends GameObject{
         double xInput = 0;
         double yInput = 0;
         if(KeyboardInput.getKey(KeyEvent.VK_W)){
-            yInput-= speed;
+            jump();
         }
         if(KeyboardInput.getKey(KeyEvent.VK_S)){
             yInput+= speed;
@@ -57,23 +57,40 @@ public class TestPlayer extends GameObject{
         }
         posX += xInput*GameLoop.updateDelta()*speedAlpha;
         posY += yInput*GameLoop.updateDelta()*speedAlpha;
+        fall();
         World.getObjects().forEach((ob) -> {
             if(ob.collide(this)){
+                fallSpeed = 0;  
+                isJumping = 0;
+                
+                float deltaY = Math.abs(ob.getPosY() - posY) - getHeight();
+                System.out.println(deltaY);
+                if(deltaY > -0.1 && deltaY < 0.1){
+                    posY -= Math.abs(deltaY);
+                    oldPosY = posY;
+                    
+                    return;
+                }
                 posX = oldPosX;
                 posY = oldPosY;
             }
         });
+        
         oldPosX = posX;
         oldPosY = posY;
     }
 
     @Override
-    public void fall() {
-        
-    }
+    public void fall(){
+        fallSpeed += Math.min((fallSpeed+g)*GameLoop.updateDelta(),0.1);
+        this.posY += fallSpeed;
+    };
     
     public void jump(){
-
+        if(isJumping < 2){
+            fallSpeed += -5*GameLoop.updateDelta();
+            isJumping++;
+        }
         
     }
     

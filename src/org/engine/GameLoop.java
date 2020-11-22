@@ -69,7 +69,7 @@ public class GameLoop {
         thread.setName("GameLoop");
         thread.start();
     };
-    public static double updateDelta(){
+    public static float updateDelta(){
         return 1.0f/1000000000 * targetTime;
     }
 }

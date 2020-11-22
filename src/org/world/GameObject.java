@@ -6,6 +6,7 @@
 package org.world;
 
 import java.util.List;
+import org.engine.GameLoop;
 import org.graphics.Animation;
 import org.graphics.Graphics;
 import org.graphics.Renderer;
@@ -32,6 +33,11 @@ public abstract class GameObject{
     protected List<Animation> animations;
     //current animation
     protected int currentAnimation = 0;
+    //fall speed
+    protected float g = 0.5f;
+    protected float fallSpeed = 0;
+    //is collide
+    protected boolean isCollide = false;
 
 //=============================== CONSTRUCTORS
     protected GameObject(float posX, float posY){
@@ -44,25 +50,26 @@ public abstract class GameObject{
     public abstract void fall();
     public void render(){
         try{
-        animations.get(currentAnimation).play();
-        ImageResource image = animations.get(currentAnimation).getCurrentFrame();
-        Graphics.setRotation(rotation);
-        Graphics.drawImage(image, Renderer.toLocalX(posX)-width/2, Renderer.toLocalY(posY)-height/2, width, height);
-        Graphics.setRotation(0);
+            animations.get(currentAnimation).play();
+            ImageResource image = animations.get(currentAnimation).getCurrentFrame();
+            Graphics.setRotation(rotation);
+            Graphics.drawImage(image, Renderer.toLocalX(posX)-width/2, Renderer.toLocalY(posY)-height/2, width, height);
+            Graphics.setRotation(0);
         }catch(Exception e){
             return;
         }
     }
 
     public boolean collide(GameObject ob){
+        isCollide = false;
         if(ob != this){
             if(Math.abs(this.getPosX()-ob.getPosX()) < this.getWidth()/2+ob.getWidth()/2){
                 if(Math.abs(this.getPosY()-ob.getPosY()) < this.getHeight()/2+ob.getHeight()/2){
-                    return true;
+                    isCollide = true;
                 }
             }
         }
-        return false;
+        return isCollide;
     }
     
     public void setPosition(float posX, float posY) {

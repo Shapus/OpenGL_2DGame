@@ -7,6 +7,7 @@ package org.engine;
 
 import org.graphics.Renderer;
 import org.resources.Loader;
+import org.test.TestBlock;
 import org.test.TestPlayer;
 import org.world.World;
 
@@ -33,6 +34,9 @@ public class Main {
         };
         Loader.load("coin", paths);
         player = new TestPlayer(0,0);
+        World.add(new TestBlock(1,4));
+        World.add(new TestBlock(2,4));
+        World.add(new TestBlock(3,4));
         World.add(player);
         Renderer.init();
         GameLoop.start();

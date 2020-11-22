@@ -26,12 +26,12 @@ public class TestBlock extends GameObject{
         animation.setFrames(Loader.getImages("wall"));
         animations.add(animation);
     }
-
+    
+    @Override
+    public void fall(){
+        
+    }
     @Override
     public void update() {
-    }
-
-    @Override
-    public void fall() {
     }
 }
