@@ -27,10 +27,10 @@ public abstract class GameObject{
     protected float oldPosX;
     protected float oldPosY;
     //speeds
-    protected float speedX = 1;
-    protected float speedY = 1;
+    protected float speedX = 0;
+    protected float speedY = 0;
     //forces
-    protected ForceVector forceSuperposition = new ForceVector(0, 0, 0);
+    protected ForceVector forceSuperposition = new ForceVector(0, 0);
     //size
     protected float height;
     protected float width;
@@ -180,6 +180,11 @@ public abstract class GameObject{
     public void setForceSuperposition(ForceVector forceSuperposition) {
         this.forceSuperposition = forceSuperposition;
     }
-    
+    public void setSpeedX(float speedX){
+        this.speedX = speedX;
+    }
+    public void setSpeedY(float speedY){
+        this.speedY = speedY;
+    }
     
 }

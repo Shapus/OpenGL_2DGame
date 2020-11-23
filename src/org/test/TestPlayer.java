@@ -10,9 +10,14 @@ import java.util.ArrayList;
 import org.engine.GameLoop;
 import org.graphics.Animation;
 import org.input.KeyboardInput;
+import org.input.MouseInput;
 import org.resource.Loader;
 import org.world.GameObject;
 import org.world.World;
+import physics.Collision;
+import physics.ForceVector;
+import physics.Gravity;
+import physics.SupportReaction;
 
 /**
  *
@@ -27,7 +32,7 @@ public class TestPlayer extends GameObject{
         height = 1;
         width = 1;
         
-        mass = 0.001f;
+        mass = 1f;
         animations = new ArrayList<>();
         Animation animation = new Animation();
         animation.setFrames(Loader.getImages("cat"));
@@ -39,25 +44,46 @@ public class TestPlayer extends GameObject{
     public void update(){
         double xInput = 0;
         double yInput = 0;
+        forceSuperposition.setX(0);
+        forceSuperposition.setY(0);
         if(KeyboardInput.getKey(KeyEvent.VK_W)){
-            yInput-= speedY;
+            setForceSuperposition(forceSuperposition.add(new ForceVector(0,-0.8f)));
         }
         if(KeyboardInput.getKey(KeyEvent.VK_S)){
-            yInput+= speedY;
+            setForceSuperposition(forceSuperposition.add(new ForceVector(0,0.8f)));
         }
         if(KeyboardInput.getKey(KeyEvent.VK_A)){
-            xInput-= speedX;
+            setForceSuperposition(forceSuperposition.add(new ForceVector(-0.8f,0)));
         }
         if(KeyboardInput.getKey(KeyEvent.VK_D)){
-            xInput+= speedX;
+            setForceSuperposition(forceSuperposition.add(new ForceVector(0.8f,0)));
         }
         if(KeyboardInput.getKey(KeyEvent.VK_SPACE)){
             jump();
         }
-        float cos = forceSuperposition.getX()/forceSuperposition.length();
-        float sin = forceSuperposition.getY()/forceSuperposition.length();
-        posX += forceSuperposition.getScalar()*cos*GameLoop.updateDelta();
-        posY += forceSuperposition.getScalar()*sin*yInput*GameLoop.updateDelta();
+        if(MouseInput.isPressed()){
+            this.posX = 0;
+            this.posY = 0;
+            forceSuperposition.setX(0);
+            forceSuperposition.setY(0);
+            speedX = 0;
+            speedY = 0;
+        }
+        Gravity g = new Gravity();
+        SupportReaction sr = new SupportReaction();
+        Collision c = new Collision();
+        g.impactOn(this);
+        for(GameObject go : World.getObjects()){
+            if(go.collide(this)){
+                c.impactOn(this);
+                sr.impactOn(this);
+                break;
+            }
+        } 
+        speedX += forceSuperposition.getX()*GameLoop.updateDelta();
+        speedY += forceSuperposition.getY()*GameLoop.updateDelta();
+        posX += speedX;
+        posY += speedY;
         
         oldPosX = posX;
         oldPosY = posY;

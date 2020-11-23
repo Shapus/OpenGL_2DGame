@@ -9,9 +9,17 @@ import org.world.GameObject;
 
 /**
  *
- * @author pupil
+ * @author ASUS
  */
-public abstract class Force {
-    public abstract void impactOn(GameObject go);
-    public abstract void react(GameObject go1, GameObject go2);
+public class Collision extends Force{
+
+    @Override
+    public void impactOn(GameObject go) {
+        go.setSpeedY(-go.getSpeedY());
+    }
+
+    @Override
+    public void react(GameObject go1, GameObject go2) {
+    }
+    
 }
