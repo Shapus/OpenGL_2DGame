@@ -20,16 +20,16 @@ import org.world.World;
  */
 public class TestPlayer extends GameObject{
     private double speedAlpha = 1;
-    private int speed = 1;
+    private int speed = 3;
     private int jumpIteration = 0;
     private int maxJumpIterations = 10;
-    private int isJumping = 0;
+    private boolean isJumping = false;
     public TestPlayer(float posX, float posY){
         super(posX, posY);
         height = 1;
         width = 1;
         
-        animations = new ArrayList<Animation>();
+        animations = new ArrayList<>();
         Animation animation = new Animation();
         animation.setFrames(Loader.getImages("cat"));
         animations.add(animation);
@@ -58,24 +58,22 @@ public class TestPlayer extends GameObject{
         posX += xInput*GameLoop.updateDelta()*speedAlpha;
         posY += yInput*GameLoop.updateDelta()*speedAlpha;
         fall();
-        World.getObjects().forEach((ob) -> {
-            if(ob.collide(this)){
-                fallSpeed = 0;  
-                isJumping = 0;
-                
-                float deltaY = Math.abs(ob.getPosY() - posY) - getHeight();
-                System.out.println(deltaY);
-                if(deltaY > -0.1 && deltaY < 0.1){
-                    posY -= Math.abs(deltaY);
-                    oldPosY = posY;
-                    
-                    return;
-                }
+        
+        for(GameObject ob : World.getObjects()){
+            if(ob.react(this)){
+                float deltaY = Math.abs(this.getPosY()-ob.getPosY());
+                float deltaHeight = this.getHeight()/2+ob.getHeight()/2;
+                supportReaction = -(fallSpeed) - Math.abs(deltaY - deltaHeight);
+            }
+            if(ob.collide(this)){    
                 posX = oldPosX;
                 posY = oldPosY;
+            }        
+            if(isCollide || isReact){
+                break;
             }
-        });
-        
+        };
+        this.posY += fallSpeed+supportReaction+jumpSpeed;
         oldPosX = posX;
         oldPosY = posY;
     }
@@ -83,13 +81,11 @@ public class TestPlayer extends GameObject{
     @Override
     public void fall(){
         fallSpeed += Math.min((fallSpeed+g)*GameLoop.updateDelta(),0.1);
-        this.posY += fallSpeed;
     };
     
     public void jump(){
-        if(isJumping < 2){
-            fallSpeed += -5*GameLoop.updateDelta();
-            isJumping++;
+        if(!isJumping){
+            jumpSpeed = 1*GameLoop.updateDelta();
         }
         
     }

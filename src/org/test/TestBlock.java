@@ -6,11 +6,10 @@
 package org.test;
 
 import java.util.ArrayList;
+import org.engine.GameLoop;
 import org.graphics.Animation;
-import org.resource.ImageResource;
 import org.resources.Loader;
 import org.world.GameObject;
-import org.world.World;
 
 /**
  *
@@ -21,7 +20,7 @@ public class TestBlock extends GameObject{
         super(posX, posY);
         height = 1;
         width = 1;
-        setAnimations(new ArrayList<Animation>());
+        setAnimations(new ArrayList<>());
         Animation animation = new Animation();
         animation.setFrames(Loader.getImages("wall"));
         animations.add(animation);
@@ -29,9 +28,11 @@ public class TestBlock extends GameObject{
     
     @Override
     public void fall(){
-        
+        fallSpeed += Math.min((fallSpeed+g)*GameLoop.updateDelta(),0.1);
+        this.posY += fallSpeed;
     }
     @Override
     public void update() {
+        //fall();
     }
 }

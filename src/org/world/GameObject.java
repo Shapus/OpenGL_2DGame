@@ -6,7 +6,6 @@
 package org.world;
 
 import java.util.List;
-import org.engine.GameLoop;
 import org.graphics.Animation;
 import org.graphics.Graphics;
 import org.graphics.Renderer;
@@ -19,11 +18,21 @@ import org.resource.ImageResource;
 public abstract class GameObject{
     
 //=============================== VARIABLES    
-    //position
+    //mass
+    protected float mass;
+    //coordinats
     protected float posX;
     protected float posY;
     protected float oldPosX;
     protected float oldPosY;
+    //speeds
+    protected float speedX;
+    protected float speedY;
+    //forces
+    protected float g = 0.5f;
+    protected float fallSpeed = 0;
+    protected float supportReaction = 0;
+    protected float jumpSpeed = 0;
     //size
     protected float height;
     protected float width;
@@ -32,12 +41,10 @@ public abstract class GameObject{
     //object animation
     protected List<Animation> animations;
     //current animation
-    protected int currentAnimation = 0;
-    //fall speed
-    protected float g = 0.5f;
-    protected float fallSpeed = 0;
+    protected int currentAnimation = 0;    
     //is collide
     protected boolean isCollide = false;
+    protected boolean isReact = false;
 
 //=============================== CONSTRUCTORS
     protected GameObject(float posX, float posY){
@@ -63,13 +70,33 @@ public abstract class GameObject{
     public boolean collide(GameObject ob){
         isCollide = false;
         if(ob != this){
-            if(Math.abs(this.getPosX()-ob.getPosX()) < this.getWidth()/2+ob.getWidth()/2){
-                if(Math.abs(this.getPosY()-ob.getPosY()) < this.getHeight()/2+ob.getHeight()/2){
+            float deltaX = Math.abs(this.getPosX()-ob.getPosX());
+            float deltaY = Math.abs(this.getPosY()-ob.getPosY());
+            float deltaWidth = this.getWidth()/2+ob.getWidth()/2;
+            float deltaHeight = this.getHeight()/2+ob.getHeight()/2;
+            if(deltaX <= deltaWidth){
+                if(deltaY <= deltaHeight){
                     isCollide = true;
                 }
             }
         }
         return isCollide;
+    }
+    
+    public boolean react(GameObject ob){
+        isReact = false;
+        if(ob != this){
+            float deltaX = Math.abs(this.getPosX()-ob.getPosX());
+            float deltaY = Math.abs(this.getPosY()-ob.getPosY());
+            float deltaWidth = this.getWidth()/2+ob.getWidth()/2;
+            float deltaHeight = this.getHeight()/2+ob.getHeight()/2;
+            if(deltaX < deltaWidth){
+                if(deltaY - deltaHeight < 0.1){
+                    isReact = true;
+                }
+            }
+        }
+        return isReact;
     }
     
     public void setPosition(float posX, float posY) {

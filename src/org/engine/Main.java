@@ -37,6 +37,7 @@ public class Main {
         World.add(new TestBlock(1,4));
         World.add(new TestBlock(2,4));
         World.add(new TestBlock(3,4));
+        World.add(new TestBlock(4,3));
         World.add(player);
         Renderer.init();
         GameLoop.start();
