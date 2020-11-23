@@ -6,7 +6,7 @@
 package org.engine;
 
 import org.graphics.Renderer;
-import org.resources.Loader;
+import org.resource.Loader;
 import org.test.TestBlock;
 import org.test.TestPlayer;
 import org.world.World;

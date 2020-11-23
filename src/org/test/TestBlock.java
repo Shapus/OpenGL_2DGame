@@ -6,9 +6,8 @@
 package org.test;
 
 import java.util.ArrayList;
-import org.engine.GameLoop;
 import org.graphics.Animation;
-import org.resources.Loader;
+import org.resource.Loader;
 import org.world.GameObject;
 
 /**
@@ -25,14 +24,7 @@ public class TestBlock extends GameObject{
         animation.setFrames(Loader.getImages("wall"));
         animations.add(animation);
     }
-    
-    @Override
-    public void fall(){
-        fallSpeed += Math.min((fallSpeed+g)*GameLoop.updateDelta(),0.1);
-        this.posY += fallSpeed;
-    }
     @Override
     public void update() {
-        //fall();
     }
 }

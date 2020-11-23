@@ -10,6 +10,7 @@ import org.graphics.Animation;
 import org.graphics.Graphics;
 import org.graphics.Renderer;
 import org.resource.ImageResource;
+import physics.ForceVector;
 
 /**
  *
@@ -26,13 +27,10 @@ public abstract class GameObject{
     protected float oldPosX;
     protected float oldPosY;
     //speeds
-    protected float speedX;
-    protected float speedY;
+    protected float speedX = 1;
+    protected float speedY = 1;
     //forces
-    protected float g = 0.5f;
-    protected float fallSpeed = 0;
-    protected float supportReaction = 0;
-    protected float jumpSpeed = 0;
+    protected ForceVector forceSuperposition = new ForceVector(0, 0, 0);
     //size
     protected float height;
     protected float width;
@@ -54,7 +52,6 @@ public abstract class GameObject{
     
 //=============================== METHODS   
     public abstract void update();
-    public abstract void fall();
     public void render(){
         try{
             animations.get(currentAnimation).play();
@@ -126,6 +123,34 @@ public abstract class GameObject{
     public int getCurrentAnimation() {
         return currentAnimation;
     }
+    public float getMass() {
+        return mass;
+    }
+    public float getOldPosX() {
+        return oldPosX;
+    }
+    public float getOldPosY() {
+        return oldPosY;
+    }
+    public float getSpeedX() {
+        return speedX;
+    }
+    public float getSpeedY() {
+        return speedY;
+    }
+    public ForceVector getForceSuperposition() {
+        return forceSuperposition;
+    }
+    public List<Animation> getAnimations() {
+        return animations;
+    }
+    public boolean isIsCollide() {
+        return isCollide;
+    }
+    public boolean isIsReact() {
+        return isReact;
+    }
+    
  
 //=============================== SETTERS
     public void setPosX(float posX) {
@@ -148,6 +173,12 @@ public abstract class GameObject{
     }
     public void setCurrentAnimation(int currentAnimation) {
         this.currentAnimation = currentAnimation;
+    }
+    public void setMass(float mass) {
+        this.mass = mass;
+    }
+    public void setForceSuperposition(ForceVector forceSuperposition) {
+        this.forceSuperposition = forceSuperposition;
     }
     
     
