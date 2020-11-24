@@ -42,8 +42,6 @@ public abstract class GameObject{
     protected int currentAnimation = 0;    
     //is collide
     protected boolean isCollide = false;
-    protected float collision_delta_x = 0;
-    protected float collision_delta_y = 0;
 
 //=============================== CONSTRUCTORS
     protected GameObject(float posX, float posY){
@@ -70,15 +68,11 @@ public abstract class GameObject{
         if(ob != this){
             float deltaX = Math.abs(this.getPosX()-ob.getPosX());
             float deltaY = Math.abs(this.getPosY()-ob.getPosY());
-            float deltaWidth = this.getWidth()/2+ob.getWidth()/2;
-            float deltaHeight = this.getHeight()/2+ob.getHeight()/2;
-            if(deltaX <= deltaWidth){
-                if(deltaY <= deltaHeight){
-                    collision_delta_x = deltaY-deltaHeight;
-                    collision_delta_y = deltaY-deltaHeight;
-                    isCollide = true;
-                }
-            }
+            float min_width = this.getWidth()/2+ob.getWidth()/2;
+            float min_height = this.getHeight()/2+ob.getHeight()/2;
+            if(ob != this && deltaX <= min_width && deltaY <= min_height){
+                isCollide = true;
+            }                
         }
         return isCollide;
     }
@@ -90,6 +84,13 @@ public abstract class GameObject{
     }
     public void addForce(Vector force){
         forces.add(force);
+    }
+    public Vector getSuperposition(){
+        Vector superposition = new Vector(0,0);
+        for(Vector force : forces){
+            superposition = superposition.add(force);
+        }
+        return superposition;
     }
     
 //=============================== GETTERS
@@ -134,12 +135,6 @@ public abstract class GameObject{
     }
     public boolean isIsCollide() {
         return isCollide;
-    }
-    public float getCollisionDeltaX(){
-        return collision_delta_x;
-    }
-    public float getCollisionDeltaY(){
-        return collision_delta_y;
     }
     public List<Vector> getForces(){
         return forces;

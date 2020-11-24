@@ -12,7 +12,7 @@ import org.world.GameObject;
  * @author pupil
  */
 public class Gravity extends Force{
-    final private static float G = 0.5f;
+    final private static float G = 0.1f;
     private static final Vector FORCE_VECTOR = new Vector(0, G);
     
     

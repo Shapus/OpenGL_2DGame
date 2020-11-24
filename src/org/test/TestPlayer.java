@@ -74,17 +74,14 @@ public class TestPlayer extends GameObject{
         g.impactOn(this);
         for(GameObject go : World.getObjects()){
             if(go.collide(this)){
-                sr.impactOn(this);
                 c.impactOn(this);
+                sr.react(this, go);  
                 break;
             }
         } 
-        Vector superposition = new Vector(0,0);
-        for(Vector force : forces){
-            superposition = superposition.add(force);
-        }
-        speedX += superposition.getX();
-        speedY += superposition.getY();
+        
+        speedX += getSuperposition().getX();
+        speedY += getSuperposition().getY();
         
         posX += speedX*GameLoop.updateDelta();
         posY += speedY*GameLoop.updateDelta();

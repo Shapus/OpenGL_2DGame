@@ -12,12 +12,12 @@ package physics;
 public class Vector {
     
 //=============================== VARIABLES
-    private float x;
-    private float y;
+    private double x;
+    private double y;
     
     
 //=============================== CONSTRUCTORS
-    public Vector(float x, float y){
+    public Vector(double x, double y){
         this.x = x;
         this.y = y;
     }
@@ -27,8 +27,11 @@ public class Vector {
     public Vector add(Vector fv){
         return new Vector(x + fv.x, y + fv.y);
     }
-    public Vector multy(float n){
+    public Vector multy(double n){
         return new Vector(x*n, y*n);
+    }
+    public Vector multy(double n1, double n2){
+        return new Vector(x*n1, y*n2);
     }
     public float length(){
         return (float)Math.sqrt(Math.pow(x, 2)+Math.pow(y, 2));
@@ -36,19 +39,19 @@ public class Vector {
     
     
 //=============================== GETTERS
-    public float getX() {
+    public double getX() {
         return x;
     }
-    public float getY() {
+    public double getY() {
         return y;
     }
     
     
 //=============================== SETTERS   
-    public void setX(float x) {
+    public void setX(double x) {
         this.x = x;
     }
-    public void setY(float y) {
+    public void setY(double y) {
         this.y = y;
     }
     
