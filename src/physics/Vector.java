@@ -9,7 +9,7 @@ package physics;
  *
  * @author pupil
  */
-public class ForceVector {
+public class Vector {
     
 //=============================== VARIABLES
     private float x;
@@ -17,18 +17,18 @@ public class ForceVector {
     
     
 //=============================== CONSTRUCTORS
-    public ForceVector(float x, float y){
+    public Vector(float x, float y){
         this.x = x;
         this.y = y;
     }
     
     
 //=============================== METHODS
-    public ForceVector add(ForceVector fv){
-        return new ForceVector(x + fv.x, y + fv.y);
+    public Vector add(Vector fv){
+        return new Vector(x + fv.x, y + fv.y);
     }
-    public ForceVector multy(float n){
-        return new ForceVector(x*n, y*n);
+    public Vector multy(float n){
+        return new Vector(x*n, y*n);
     }
     public float length(){
         return (float)Math.sqrt(Math.pow(x, 2)+Math.pow(y, 2));

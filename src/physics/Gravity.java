@@ -13,12 +13,12 @@ import org.world.GameObject;
  */
 public class Gravity extends Force{
     final private static float G = 0.5f;
-    private static final ForceVector FORCE_VECTOR = new ForceVector(0, G);
+    private static final Vector FORCE_VECTOR = new Vector(0, G);
     
     
     @Override
     public void impactOn(GameObject go){
-        go.setForceSuperposition(go.getForceSuperposition().add(FORCE_VECTOR.multy(go.getMass())));
+        go.addForce(FORCE_VECTOR.multy(go.getMass()));
     }
 
     @Override

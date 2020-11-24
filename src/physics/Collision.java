@@ -5,6 +5,7 @@
  */
 package physics;
 
+import org.engine.GameLoop;
 import org.world.GameObject;
 
 /**
@@ -15,7 +16,8 @@ public class Collision extends Force{
 
     @Override
     public void impactOn(GameObject go) {
-        go.setSpeedY(-go.getSpeedY());
+        go.setSpeedX(go.getCollisionDeltaX()/GameLoop.updateDelta());
+        go.setSpeedY(go.getCollisionDeltaY()/GameLoop.updateDelta());
     }
 
     @Override

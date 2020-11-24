@@ -15,7 +15,7 @@ import org.resource.Loader;
 import org.world.GameObject;
 import org.world.World;
 import physics.Collision;
-import physics.ForceVector;
+import physics.Vector;
 import physics.Gravity;
 import physics.SupportReaction;
 
@@ -34,6 +34,7 @@ public class TestPlayer extends GameObject{
         
         mass = 1f;
         animations = new ArrayList<>();
+        forces = new ArrayList<>();
         Animation animation = new Animation();
         animation.setFrames(Loader.getImages("cat"));
         animations.add(animation);
@@ -44,19 +45,18 @@ public class TestPlayer extends GameObject{
     public void update(){
         double xInput = 0;
         double yInput = 0;
-        forceSuperposition.setX(0);
-        forceSuperposition.setY(0);
+        forces.clear();
         if(KeyboardInput.getKey(KeyEvent.VK_W)){
-            setForceSuperposition(forceSuperposition.add(new ForceVector(0,-0.8f)));
+            forces.add(new Vector(0,-0.8f));
         }
         if(KeyboardInput.getKey(KeyEvent.VK_S)){
-            setForceSuperposition(forceSuperposition.add(new ForceVector(0,0.8f)));
+            forces.add(new Vector(0,0.8f));
         }
         if(KeyboardInput.getKey(KeyEvent.VK_A)){
-            setForceSuperposition(forceSuperposition.add(new ForceVector(-0.8f,0)));
+            forces.add(new Vector(-0.8f,0));
         }
         if(KeyboardInput.getKey(KeyEvent.VK_D)){
-            setForceSuperposition(forceSuperposition.add(new ForceVector(0.8f,0)));
+            forces.add(new Vector(0.8f,0));
         }
         if(KeyboardInput.getKey(KeyEvent.VK_SPACE)){
             jump();
@@ -64,10 +64,9 @@ public class TestPlayer extends GameObject{
         if(MouseInput.isPressed()){
             this.posX = 0;
             this.posY = 0;
-            forceSuperposition.setX(0);
-            forceSuperposition.setY(0);
             speedX = 0;
             speedY = 0;
+            forces.clear(); 
         }
         Gravity g = new Gravity();
         SupportReaction sr = new SupportReaction();
@@ -75,15 +74,20 @@ public class TestPlayer extends GameObject{
         g.impactOn(this);
         for(GameObject go : World.getObjects()){
             if(go.collide(this)){
-                c.impactOn(this);
                 sr.impactOn(this);
+                c.impactOn(this);
                 break;
             }
         } 
-        speedX += forceSuperposition.getX()*GameLoop.updateDelta();
-        speedY += forceSuperposition.getY()*GameLoop.updateDelta();
-        posX += speedX;
-        posY += speedY;
+        Vector superposition = new Vector(0,0);
+        for(Vector force : forces){
+            superposition = superposition.add(force);
+        }
+        speedX += superposition.getX();
+        speedY += superposition.getY();
+        
+        posX += speedX*GameLoop.updateDelta();
+        posY += speedY*GameLoop.updateDelta();
         
         oldPosX = posX;
         oldPosY = posY;

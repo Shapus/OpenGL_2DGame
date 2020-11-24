@@ -16,10 +16,10 @@ public class SupportReaction extends Force{
 
     @Override
     public void impactOn(GameObject go) {
-        ForceVector reaction_vector = new ForceVector(0, 0);
-        reaction_vector.setX(-go.getMass()*go.getSpeedX());
-        reaction_vector.setY(-go.getMass()*go.getSpeedY());
-        go.setForceSuperposition(go.getForceSuperposition().add(reaction_vector));
+        Vector reaction_vector = new Vector(0, 0);
+        //reaction_vector.setX(-go.getForceSuperposition().getX());
+        //reaction_vector.setY(-go.getForceSuperposition().getY());
+        //go.setForceSuperposition(go.getForceSuperposition().add(reaction_vector));
     }
 
     @Override

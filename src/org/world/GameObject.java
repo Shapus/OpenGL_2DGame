@@ -10,7 +10,7 @@ import org.graphics.Animation;
 import org.graphics.Graphics;
 import org.graphics.Renderer;
 import org.resource.ImageResource;
-import physics.ForceVector;
+import physics.Vector;
 
 /**
  *
@@ -30,7 +30,7 @@ public abstract class GameObject{
     protected float speedX = 0;
     protected float speedY = 0;
     //forces
-    protected ForceVector forceSuperposition = new ForceVector(0, 0);
+    protected List<Vector> forces;
     //size
     protected float height;
     protected float width;
@@ -42,7 +42,8 @@ public abstract class GameObject{
     protected int currentAnimation = 0;    
     //is collide
     protected boolean isCollide = false;
-    protected boolean isReact = false;
+    protected float collision_delta_x = 0;
+    protected float collision_delta_y = 0;
 
 //=============================== CONSTRUCTORS
     protected GameObject(float posX, float posY){
@@ -73,6 +74,8 @@ public abstract class GameObject{
             float deltaHeight = this.getHeight()/2+ob.getHeight()/2;
             if(deltaX <= deltaWidth){
                 if(deltaY <= deltaHeight){
+                    collision_delta_x = deltaY-deltaHeight;
+                    collision_delta_y = deltaY-deltaHeight;
                     isCollide = true;
                 }
             }
@@ -80,25 +83,13 @@ public abstract class GameObject{
         return isCollide;
     }
     
-    public boolean react(GameObject ob){
-        isReact = false;
-        if(ob != this){
-            float deltaX = Math.abs(this.getPosX()-ob.getPosX());
-            float deltaY = Math.abs(this.getPosY()-ob.getPosY());
-            float deltaWidth = this.getWidth()/2+ob.getWidth()/2;
-            float deltaHeight = this.getHeight()/2+ob.getHeight()/2;
-            if(deltaX < deltaWidth){
-                if(deltaY - deltaHeight < 0.1){
-                    isReact = true;
-                }
-            }
-        }
-        return isReact;
-    }
     
     public void setPosition(float posX, float posY) {
         this.posX = posX;
         this.posY = posY;
+    }
+    public void addForce(Vector force){
+        forces.add(force);
     }
     
 //=============================== GETTERS
@@ -138,17 +129,20 @@ public abstract class GameObject{
     public float getSpeedY() {
         return speedY;
     }
-    public ForceVector getForceSuperposition() {
-        return forceSuperposition;
-    }
     public List<Animation> getAnimations() {
         return animations;
     }
     public boolean isIsCollide() {
         return isCollide;
     }
-    public boolean isIsReact() {
-        return isReact;
+    public float getCollisionDeltaX(){
+        return collision_delta_x;
+    }
+    public float getCollisionDeltaY(){
+        return collision_delta_y;
+    }
+    public List<Vector> getForces(){
+        return forces;
     }
     
  
@@ -177,14 +171,14 @@ public abstract class GameObject{
     public void setMass(float mass) {
         this.mass = mass;
     }
-    public void setForceSuperposition(ForceVector forceSuperposition) {
-        this.forceSuperposition = forceSuperposition;
-    }
     public void setSpeedX(float speedX){
         this.speedX = speedX;
     }
     public void setSpeedY(float speedY){
         this.speedY = speedY;
+    }
+    public void getForces(List<Vector> forces){
+        this.forces = forces;
     }
     
 }
