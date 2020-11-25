@@ -7,7 +7,6 @@ package physics;
 
 import java.util.ArrayList;
 import java.util.List;
-import org.engine.GameLoop;
 import org.world.GameObject;
 
 /**
@@ -18,40 +17,32 @@ public class SupportReaction extends Force{
 
     @Override
     public void impactOn(GameObject go) {
-        //reaction_vector.setX(-go.getForceSuperposition().getX());
-        //reaction_vector.setY(-go.getForceSuperposition().getY());
-        //go.setForceSuperposition(go.getForceSuperposition().add(reaction_vector));
-        //Vector radius_vector = new Vector(go1.getPosX()-go2.getPosX(), go1.getPosY()-go2.getPosX());
-        
     }
 
     @Override
     public void react(GameObject go1, GameObject go2) {
-        Vector radius_vector = new Vector(go2.getPosX()-go1.getPosX(), go2.getPosX()-go1.getPosY());
-        Vector reactionForce = new Vector(0,0);
         List<Vector> forcesBuffer = new ArrayList<>();
         Vector normalX = new Vector(0,0);
         Vector normalY = new Vector(0,0);
+        float speedAlpha = 0.8f;
             if(go1.getPosX() > go2.getPosX()){
                 normalX = new Vector(1,0);
-                go1.setSpeedX(0);
+                go1.setSpeedX(speedAlpha * Math.abs(go1.getSpeedX()));
             }
-            else if(go1.getPosX() < go2.getPosX()){
+            if(go1.getPosX() < go2.getPosX()){
                 normalX = new Vector(-1,0);
-                go1.setSpeedX(0);
+                go1.setSpeedX(speedAlpha * -Math.abs(go1.getSpeedX()));
             }
             if(go1.getPosY() > go2.getPosY()){
                 normalY = new Vector(0,1);
-                go1.setSpeedY(0);
+                go1.setSpeedY(speedAlpha * Math.abs(go1.getSpeedY()));
             }
-            else if(go1.getPosY() < go2.getPosY()){
+            if(go1.getPosY() < go2.getPosY()){
                 normalY = new Vector(0,-1);
-                go1.setSpeedY(0);
+                go1.setSpeedY(speedAlpha * -Math.abs(go1.getSpeedY()));
             }
             int i = 0;
         for(Vector force : go1.getForces()){
-            System.out.println(i+".X: "+force.getX());
-            System.out.println(i+".Y: "+force.getY());
             if(force.getX() * normalX.getX() < 0){
                 forcesBuffer.add(force.scalarMulty(new Vector(-1,0)));
             }

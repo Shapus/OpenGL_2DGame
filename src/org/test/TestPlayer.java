@@ -43,8 +43,6 @@ public class TestPlayer extends GameObject{
     }
     @Override
     public void update(){
-        double xInput = 0;
-        double yInput = 0;
         forces.clear();
         if(KeyboardInput.getKey(KeyEvent.VK_W)){
             forces.add(new Vector(0,-0.8f));
