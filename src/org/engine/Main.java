@@ -33,11 +33,24 @@ public class Main {
             "/res/sprites/coin/image_part_009.png" 
         };
         Loader.load("coin", paths);
-        player = new TestPlayer(0,0);
-        World.add(new TestBlock(1,4));
-        World.add(new TestBlock(2,4));
-        World.add(new TestBlock(3,4));
+        player = new TestPlayer(2,2);
+        World.add(new TestBlock(0,1));
+        World.add(new TestBlock(1,1));
+        World.add(new TestBlock(2,1));
+        World.add(new TestBlock(3,1));
+        World.add(new TestBlock(4,1));
+        World.add(new TestBlock(4,2));
         World.add(new TestBlock(4,3));
+        World.add(new TestBlock(4,4));
+        World.add(new TestBlock(4,5));
+        World.add(new TestBlock(3,5));
+        World.add(new TestBlock(2,5));
+        World.add(new TestBlock(1,5));
+        World.add(new TestBlock(0,5));
+        World.add(new TestBlock(0,4));
+        World.add(new TestBlock(0,3));
+        World.add(new TestBlock(0,2));
+        World.add(new TestBlock(0,1));
         World.add(player);
         Renderer.init();
         GameLoop.start();

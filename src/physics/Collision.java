@@ -16,8 +16,7 @@ public class Collision extends Force{
 
     @Override
     public void impactOn(GameObject go) {
-        go.setSpeedX(0);
-        go.setSpeedY(0);
+        
     }
 
     @Override

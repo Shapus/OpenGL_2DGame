@@ -27,7 +27,7 @@ public class GameLoop {
     private static long lastUpdateTime = 0;
     
     //fps
-    private static int targetFPS = 60;
+    private static int targetFPS = 100;
     // 1/fps time
     private static final int targetTime = 1000000000 / targetFPS;
 

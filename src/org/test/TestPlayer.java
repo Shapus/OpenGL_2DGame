@@ -71,12 +71,13 @@ public class TestPlayer extends GameObject{
         Gravity g = new Gravity();
         SupportReaction sr = new SupportReaction();
         Collision c = new Collision();
+        
+        
         g.impactOn(this);
         for(GameObject go : World.getObjects()){
             if(go.collide(this)){
                 c.impactOn(this);
                 sr.react(this, go);  
-                break;
             }
         } 
         

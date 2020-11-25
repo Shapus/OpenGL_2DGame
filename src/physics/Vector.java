@@ -30,11 +30,14 @@ public class Vector {
     public Vector multy(double n){
         return new Vector(x*n, y*n);
     }
-    public Vector multy(double n1, double n2){
-        return new Vector(x*n1, y*n2);
+    public Vector scalarMulty(Vector v){
+        return new Vector(x*v.x, y*v.y);
     }
     public float length(){
         return (float)Math.sqrt(Math.pow(x, 2)+Math.pow(y, 2));
+    }
+    public double cosWith(Vector v){
+        return (this.x*v.x+this.y*v.y)/(this.length()*v.length());
     }
     
     

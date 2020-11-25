@@ -5,6 +5,8 @@
  */
 package physics;
 
+import java.util.ArrayList;
+import java.util.List;
 import org.engine.GameLoop;
 import org.world.GameObject;
 
@@ -27,19 +29,39 @@ public class SupportReaction extends Force{
     public void react(GameObject go1, GameObject go2) {
         Vector radius_vector = new Vector(go2.getPosX()-go1.getPosX(), go2.getPosX()-go1.getPosY());
         Vector reactionForce = new Vector(0,0);
+        List<Vector> forcesBuffer = new ArrayList<>();
+        Vector normalX = new Vector(0,0);
+        Vector normalY = new Vector(0,0);
+            if(go1.getPosX() > go2.getPosX()){
+                normalX = new Vector(1,0);
+                go1.setSpeedX(0);
+            }
+            else if(go1.getPosX() < go2.getPosX()){
+                normalX = new Vector(-1,0);
+                go1.setSpeedX(0);
+            }
+            if(go1.getPosY() > go2.getPosY()){
+                normalY = new Vector(0,1);
+                go1.setSpeedY(0);
+            }
+            else if(go1.getPosY() < go2.getPosY()){
+                normalY = new Vector(0,-1);
+                go1.setSpeedY(0);
+            }
+            int i = 0;
         for(Vector force : go1.getForces()){
-            double cos = (radius_vector.getX()*force.getX()+radius_vector.getY()*force.getY())/(radius_vector.length()*force.length());
-            System.out.println("Cos:" + cos);
-            float sin = (float) Math.sin(Math.acos(cos));
-            if(cos < 0){
-                cos = 0;
+            System.out.println(i+".X: "+force.getX());
+            System.out.println(i+".Y: "+force.getY());
+            if(force.getX() * normalX.getX() < 0){
+                forcesBuffer.add(force.scalarMulty(new Vector(-1,0)));
             }
-            if(sin < 0){
-                sin = 0;
+            if(force.getY() * normalY.getY() < 0){
+                forcesBuffer.add(force.scalarMulty(new Vector(0,-1)));
             }
-            reactionForce = reactionForce.add(force.multy(cos, sin));
         }
-        go1.addForce(reactionForce);
+        for(Vector force : forcesBuffer){
+            go1.addForce(force);
+        }
     }
     
 }
