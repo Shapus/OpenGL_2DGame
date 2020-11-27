@@ -38,8 +38,6 @@ public class TestPlayer extends GameObject{
         Animation animation = new Animation();
         animation.setFrames(Loader.getImages("cat"));
         animations.add(animation);
-        setPosX(posX+width/2);
-        setPosY(posY+height/2);
     }
     @Override
     public void update(){
@@ -60,38 +58,30 @@ public class TestPlayer extends GameObject{
             jump();
         }
         if(MouseInput.isPressed()){
-            this.posX = 0;
-            this.posY = 0;
-            speedX = 0;
-            speedY = 0;
+            position.set(3,3);
+            speed.set(0,0);
             forces.clear(); 
         }
         Gravity g = new Gravity();
         SupportReaction sr = new SupportReaction();
         Collision c = new Collision();
         
-        
         g.impactOn(this);
         for(GameObject go : World.getObjects()){
-            if(go.collide(this)){
+            if(collide(go)){
+                //position.set(position.add(collision_delta).multy(GameLoop.updateDelta()));
                 c.impactOn(this);
                 sr.react(this, go);  
+                System.out.println(collision_delta);
+                
             }
         } 
-        
-        speedX += getSuperposition().getX();
-        speedY += getSuperposition().getY();
-        
-        posX += speedX*GameLoop.updateDelta();
-        posY += speedY*GameLoop.updateDelta();
-        
-        oldPosX = posX;
-        oldPosY = posY;
+        speed.set(speed.add(getSuperposition().multy(1/mass)));
+        oldPosition.set(position);
+        position.set(position.add(speed.multy(GameLoop.updateDelta()))); 
     }
-
-    
     public void jump(){
-        
+        forces.add(new Vector(0,-1));
     }
     
 }

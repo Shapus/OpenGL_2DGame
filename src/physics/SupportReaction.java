@@ -24,29 +24,38 @@ public class SupportReaction extends Force{
         List<Vector> forcesBuffer = new ArrayList<>();
         Vector normalX = new Vector(0,0);
         Vector normalY = new Vector(0,0);
+        Vector redius_vector = new Vector(go2.x()-go1.x(), go2.y()-go1.y());
+        float height = (go1.getHeight()+go2.getHeight())/2;
+        float width = (go1.getWidth()+go2.getWidth())/2;
         float speedAlpha = 0.8f;
-            if(go1.getPosX() > go2.getPosX()){
-                normalX = new Vector(1,0);
-                go1.setSpeedX(speedAlpha * Math.abs(go1.getSpeedX()));
-            }
-            if(go1.getPosX() < go2.getPosX()){
-                normalX = new Vector(-1,0);
-                go1.setSpeedX(speedAlpha * -Math.abs(go1.getSpeedX()));
-            }
-            if(go1.getPosY() > go2.getPosY()){
-                normalY = new Vector(0,1);
-                go1.setSpeedY(speedAlpha * Math.abs(go1.getSpeedY()));
-            }
-            if(go1.getPosY() < go2.getPosY()){
-                normalY = new Vector(0,-1);
-                go1.setSpeedY(speedAlpha * -Math.abs(go1.getSpeedY()));
-            }
-            int i = 0;
+
+        
+        if(go1.x() > go2.x()){
+            normalX = new Vector(1,0);
+            System.out.println("right");
+            go1.setSpeedX(0);
+        }
+        else if(go1.x() < go2.x()){
+            normalX = new Vector(-1,0);
+            System.out.println("left");
+            go1.setSpeedX(0);
+        }
+        if(go1.y() > go2.y()){
+            normalY = new Vector(0,1);
+            System.out.println("top");
+            go1.setSpeedY(0);
+        }
+        else if(go1.y() < go2.y()){
+            normalY = new Vector(0,-1);
+            System.out.println("bottom");
+            go1.setSpeedY(0);
+        }
+        
         for(Vector force : go1.getForces()){
-            if(force.getX() * normalX.getX() < 0){
+            if(force.x() * normalX.x() < 0){
                 forcesBuffer.add(force.scalarMulty(new Vector(-1,0)));
             }
-            if(force.getY() * normalY.getY() < 0){
+            if(force.y() * normalY.y() < 0){
                 forcesBuffer.add(force.scalarMulty(new Vector(0,-1)));
             }
         }

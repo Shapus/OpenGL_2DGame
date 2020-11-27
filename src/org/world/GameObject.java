@@ -22,13 +22,10 @@ public abstract class GameObject{
     //mass
     protected float mass;
     //coordinats
-    protected float posX;
-    protected float posY;
-    protected float oldPosX;
-    protected float oldPosY;
+    protected Vector position;
+    protected Vector oldPosition;
     //speeds
-    protected float speedX = 0;
-    protected float speedY = 0;
+    protected Vector speed;
     //forces
     protected List<Vector> forces;
     //size
@@ -42,21 +39,26 @@ public abstract class GameObject{
     protected int currentAnimation = 0;    
     //is collide
     protected boolean isCollide = false;
+    protected boolean isReact = false;
+    protected Vector collision_delta;
 
 //=============================== CONSTRUCTORS
-    protected GameObject(float posX, float posY){
-        this.posX = posX;
-        this.posY = posY;
+    protected GameObject(float x, float y){
+        this.position = new Vector(x,y);
+        this.oldPosition = new Vector(x,y);
+        this.speed = new Vector(0,0);
+        this.collision_delta = new Vector(0,0);
     }
     
 //=============================== METHODS   
     public abstract void update();
+    
     public void render(){
         try{
             animations.get(currentAnimation).play();
             ImageResource image = animations.get(currentAnimation).getCurrentFrame();
             Graphics.setRotation(rotation);
-            Graphics.drawImage(image, Renderer.toLocalX(posX)-width/2, Renderer.toLocalY(posY)-height/2, width, height);
+            Graphics.drawImage(image, Renderer.toLocalX(position.x()), Renderer.toLocalY(position.y()), width, height);
             Graphics.setRotation(0);
         }catch(Exception e){
             return;
@@ -65,23 +67,37 @@ public abstract class GameObject{
 
     public boolean collide(GameObject ob){
         isCollide = false;
+        isReact = false;
+        collision_delta.set(0,0);
         if(ob != this){
-            float deltaX = Math.abs(this.getPosX()-ob.getPosX());
-            float deltaY = Math.abs(this.getPosY()-ob.getPosY());
+            //Vector radius_vector = new Vector();
+            float deltaX = Math.abs(x()-ob.x());
+            float deltaY = Math.abs(y()-ob.y());
             float min_width = this.getWidth()/2+ob.getWidth()/2;
             float min_height = this.getHeight()/2+ob.getHeight()/2;
-            if(ob != this && deltaX <= min_width && deltaY <= min_height){
+            if(deltaX <= min_width && deltaY <= min_height){
+                collision_delta.set(deltaX-min_width, deltaY-min_height);
                 isCollide = true;
-            }                
+            }
         }
         return isCollide;
     }
     
     
     public void setPosition(float posX, float posY) {
-        this.posX = posX;
-        this.posY = posY;
+        position.set(posX, posY);
     }
+    public void setPosition(Vector newPosition) {
+        position.set(newPosition);
+    }
+    public void setSpeed(float x, float y) {
+        position.set(x, y);
+    }
+    public void setSpeed(Vector newSpeed) {
+        position.set(newSpeed);
+    }
+    
+    
     public void addForce(Vector force){
         forces.add(force);
     }
@@ -94,11 +110,11 @@ public abstract class GameObject{
     }
     
 //=============================== GETTERS
-    public float getPosX() {
-        return posX;
+    public float x() {
+        return position.x();
     }
-    public float getPosY() {
-        return posY;
+    public float y() {
+        return position.y();
     }
     public float getHeight() {
         return height;
@@ -118,17 +134,20 @@ public abstract class GameObject{
     public float getMass() {
         return mass;
     }
-    public float getOldPosX() {
-        return oldPosX;
+    public float oldX() {
+        return oldPosition.x();
     }
-    public float getOldPosY() {
-        return oldPosY;
+    public float oldY() {
+        return oldPosition.y();
     }
-    public float getSpeedX() {
-        return speedX;
+    public Vector speed() {
+        return speed;
     }
-    public float getSpeedY() {
-        return speedY;
+    public float speedX() {
+        return speed.x();
+    }
+    public float speedY() {
+        return speed.y();
     }
     public List<Animation> getAnimations() {
         return animations;
@@ -142,11 +161,11 @@ public abstract class GameObject{
     
  
 //=============================== SETTERS
-    public void setPosX(float posX) {
-        this.posX = posX;
+    public void setX(float x) {
+        this.position.setX(x);
     }
-    public void setPosY(float posY) {
-        this.posY = posY;
+    public void setY(float y) {
+        this.position.setY(y);
     }
     public void setHeight(float height) {
         this.height = height;
@@ -167,12 +186,12 @@ public abstract class GameObject{
         this.mass = mass;
     }
     public void setSpeedX(float speedX){
-        this.speedX = speedX;
+        this.speed.setX(speedX);
     }
     public void setSpeedY(float speedY){
-        this.speedY = speedY;
+        this.speed.setY(speedY);
     }
-    public void getForces(List<Vector> forces){
+    public void setForces(List<Vector> forces){
         this.forces = forces;
     }
     

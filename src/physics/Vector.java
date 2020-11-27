@@ -12,12 +12,12 @@ package physics;
 public class Vector {
     
 //=============================== VARIABLES
-    private double x;
-    private double y;
+    private float x;
+    private float y;
     
     
 //=============================== CONSTRUCTORS
-    public Vector(double x, double y){
+    public Vector(float x, float y){
         this.x = x;
         this.y = y;
     }
@@ -27,7 +27,7 @@ public class Vector {
     public Vector add(Vector fv){
         return new Vector(x + fv.x, y + fv.y);
     }
-    public Vector multy(double n){
+    public Vector multy(float n){
         return new Vector(x*n, y*n);
     }
     public Vector scalarMulty(Vector v){
@@ -39,23 +39,46 @@ public class Vector {
     public double cosWith(Vector v){
         return (this.x*v.x+this.y*v.y)/(this.length()*v.length());
     }
+    public void set(float x, float y){
+        this.setX(x);
+        this.setY(y);
+    }
+    public void set(Vector v){
+        this.setX(v.x());
+        this.setY(v.y());
+    }
+    public void normalize(){
+        float length = length();
+        this.setX(x/length);
+        this.setY(y/length);
+    }
     
     
 //=============================== GETTERS
-    public double getX() {
+    public float x() {
         return x;
     }
-    public double getY() {
+    public float y() {
         return y;
     }
     
     
 //=============================== SETTERS   
-    public void setX(double x) {
+    public void setX(float x) {
         this.x = x;
     }
-    public void setY(double y) {
+    public void setY(float y) {
         this.y = y;
     }
     
+   
+    
+//=============================== OVERRIDDEN METHODS
+
+    @Override    
+    public String toString() {
+        return x+" : "+y;
+    }   
 }
+
+

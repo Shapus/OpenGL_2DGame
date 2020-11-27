@@ -5,7 +5,6 @@
  */
 package physics;
 
-import org.engine.GameLoop;
 import org.world.GameObject;
 
 /**
