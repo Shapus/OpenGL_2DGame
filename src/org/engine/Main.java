@@ -33,7 +33,7 @@ public class Main {
             "/res/sprites/coin/image_part_009.png" 
         };
         Loader.load("coin", paths);
-        player = new TestPlayer(3,3);
+        player = new TestPlayer(3f,3f);
         World.add(new TestBlock(0,1));
         World.add(new TestBlock(1,1));
         World.add(new TestBlock(2,1));

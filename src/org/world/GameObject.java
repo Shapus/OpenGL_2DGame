@@ -6,11 +6,12 @@
 package org.world;
 
 import java.util.List;
+import org.engine.GameLoop;
 import org.graphics.Animation;
 import org.graphics.Graphics;
 import org.graphics.Renderer;
 import org.resource.ImageResource;
-import physics.Vector;
+import org.physics.Vector;
 
 /**
  *
@@ -37,17 +38,23 @@ public abstract class GameObject{
     protected List<Animation> animations;
     //current animation
     protected int currentAnimation = 0;    
-    //is collide
-    protected boolean isCollide = false;
-    protected boolean isReact = false;
-    protected Vector collision_delta;
+    //collide variables
+    protected boolean[] isCollide;                      //contains info which side this object is collided by (top - right - bottom - left)
+    public boolean[] isCollided;                     //have this object collided by the side?
 
 //=============================== CONSTRUCTORS
     protected GameObject(float x, float y){
         this.position = new Vector(x,y);
         this.oldPosition = new Vector(x,y);
         this.speed = new Vector(0,0);
-        this.collision_delta = new Vector(0,0);
+        isCollide = new boolean[4];
+        isCollided = new boolean[4];
+        for(int i=0; i<isCollided.length;i++){
+            isCollided[i] = false;
+        }
+        for(int i=0; i<isCollide.length;i++){
+            isCollide[i] = false;
+        }
     }
     
 //=============================== METHODS   
@@ -61,26 +68,46 @@ public abstract class GameObject{
             Graphics.drawImage(image, Renderer.toLocalX(position.x()), Renderer.toLocalY(position.y()), width, height);
             Graphics.setRotation(0);
         }catch(Exception e){
-            return;
         }
     }
 
     public boolean collide(GameObject ob){
-        isCollide = false;
-        isReact = false;
-        collision_delta.set(0,0);
+        for(int i=0; i<isCollide.length;i++){
+            isCollide[i] = false;
+        }
         if(ob != this){
-            //Vector radius_vector = new Vector();
-            float deltaX = Math.abs(x()-ob.x());
-            float deltaY = Math.abs(y()-ob.y());
+            Vector radius_vector = new Vector(ob.x()-x(), ob.y()-y());
             float min_width = this.getWidth()/2+ob.getWidth()/2;
             float min_height = this.getHeight()/2+ob.getHeight()/2;
-            if(deltaX <= min_width && deltaY <= min_height){
-                collision_delta.set(deltaX-min_width, deltaY-min_height);
-                isCollide = true;
+            if(Math.abs(radius_vector.x()) <= min_width && Math.abs(radius_vector.y()) <= min_height){
+                //barrier to the top
+                if(radius_vector.y() < 0){
+                    //System.out.println("barrier to the top");
+                    isCollide[0] = true;
+                }
+                //barrier to the right
+                if(radius_vector.x() > 0){
+                    //System.out.println("barrier to the right");
+                    isCollide[1] = true;
+                }
+                //barrier to the bottom
+                if(radius_vector.y() > 0){
+                    //System.out.println("barrier to the bottom");
+                    isCollide[2] = true;
+                }
+                //barrier to the left
+                if(radius_vector.x() <0){
+                    //System.out.println("barrier to the left");
+                    isCollide[3] = true;
+                }
             }
+            if(Math.abs(radius_vector.x()) <= min_width && Math.abs(radius_vector.y()) <= min_height+Math.abs(speed.y())){
+                System.out.println("eee");
+            }
+            
+            
         }
-        return isCollide;
+        return isCollide[0] || isCollide[1] || isCollide[2] || isCollide[3];
     }
     
     
@@ -149,11 +176,11 @@ public abstract class GameObject{
     public float speedY() {
         return speed.y();
     }
+    public boolean[] isCollide() {
+        return isCollide;
+    }
     public List<Animation> getAnimations() {
         return animations;
-    }
-    public boolean isIsCollide() {
-        return isCollide;
     }
     public List<Vector> getForces(){
         return forces;

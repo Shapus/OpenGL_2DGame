@@ -3,23 +3,26 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package physics;
+package org.physics;
 
 import org.world.GameObject;
 
 /**
  *
- * @author ASUS
+ * @author pupil
  */
-public class Collision extends Force{
-
+public class Gravity extends Force{
+    final private static float G = 0.1f;
+    private static final Vector FORCE_VECTOR = new Vector(0, G);
+    
+    
     @Override
-    public void impactOn(GameObject go) {
-        
+    public void impactOn(GameObject go){
+        go.addForce(FORCE_VECTOR);
     }
 
     @Override
     public void react(GameObject go1, GameObject go2) {
+        
     }
-    
 }

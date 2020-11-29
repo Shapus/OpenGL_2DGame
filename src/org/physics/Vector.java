@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package physics;
+package org.physics;
 
 /**
  *
@@ -30,8 +30,11 @@ public class Vector {
     public Vector multy(float n){
         return new Vector(x*n, y*n);
     }
-    public Vector scalarMulty(Vector v){
+    public Vector multy(Vector v){
         return new Vector(x*v.x, y*v.y);
+    }
+    public Vector multy(float n1, float n2){
+        return new Vector(x*n1, y*n2);
     }
     public float length(){
         return (float)Math.sqrt(Math.pow(x, 2)+Math.pow(y, 2));

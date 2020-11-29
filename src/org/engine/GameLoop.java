@@ -21,13 +21,13 @@ public class GameLoop {
     private static boolean running = false;
     //how many times world was updated per target time
     private static int updates = 0;
-    //how many times world can update per target time
-    private static final int MAX_UPDATES = 5;
+    //how many times world can be updating per target time
+    private static final int MAX_UPDATES = 1;
     //last update world time
     private static long lastUpdateTime = 0;
     
     //fps
-    private static int targetFPS = 100;
+    private static int targetFPS = 60;
     // 1/fps time
     private static final int targetTime = 1000000000 / targetFPS;
 

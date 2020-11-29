@@ -14,10 +14,10 @@ import org.input.MouseInput;
 import org.resource.Loader;
 import org.world.GameObject;
 import org.world.World;
-import physics.Collision;
-import physics.Vector;
-import physics.Gravity;
-import physics.SupportReaction;
+import org.physics.Collision;
+import org.physics.Vector;
+import org.physics.Gravity;
+import org.physics.SupportReaction;
 
 /**
  *
@@ -43,22 +43,22 @@ public class TestPlayer extends GameObject{
     public void update(){
         forces.clear();
         if(KeyboardInput.getKey(KeyEvent.VK_W)){
-            forces.add(new Vector(0,-0.8f));
+            forces.add(new Vector(0,-1f));
         }
         if(KeyboardInput.getKey(KeyEvent.VK_S)){
-            forces.add(new Vector(0,0.8f));
+            forces.add(new Vector(0,1f));
         }
         if(KeyboardInput.getKey(KeyEvent.VK_A)){
-            forces.add(new Vector(-0.8f,0));
+            forces.add(new Vector(-1f,0));
         }
         if(KeyboardInput.getKey(KeyEvent.VK_D)){
-            forces.add(new Vector(0.8f,0));
+            forces.add(new Vector(1f,0));
         }
         if(KeyboardInput.getKey(KeyEvent.VK_SPACE)){
             jump();
         }
         if(MouseInput.isPressed()){
-            position.set(3,3);
+            position.set(3.5f,3.5f);
             speed.set(0,0);
             forces.clear(); 
         }
@@ -66,19 +66,21 @@ public class TestPlayer extends GameObject{
         SupportReaction sr = new SupportReaction();
         Collision c = new Collision();
         
-        g.impactOn(this);
+        //g.impactOn(this);
         for(GameObject go : World.getObjects()){
             if(collide(go)){
-                //position.set(position.add(collision_delta).multy(GameLoop.updateDelta()));
-                c.impactOn(this);
-                sr.react(this, go);  
-                System.out.println(collision_delta);
-                
+                //System.out.println("collide");
+                c.impactOn(this);   
+                sr.react(this, go);
             }
-        } 
-        speed.set(speed.add(getSuperposition().multy(1/mass)));
+        }
+        
+        for(int i=0; i<isCollided.length;i++){
+            isCollided[i] = false;
+        }
+        speed.set(speed.add(getSuperposition().multy(1/mass)).multy(GameLoop.updateDelta()));
         oldPosition.set(position);
-        position.set(position.add(speed.multy(GameLoop.updateDelta()))); 
+        position.set(position.add(speed)); 
     }
     public void jump(){
         forces.add(new Vector(0,-1));
