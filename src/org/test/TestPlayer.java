@@ -52,16 +52,16 @@ public class TestPlayer extends GameObject{
         
         
         if(KeyboardInput.getKey(KeyEvent.VK_W)){
-            forces.add(new Vector(0,-1f));
+            forces.add(new Vector(0,-0.8f));
         }
         if(KeyboardInput.getKey(KeyEvent.VK_S)){
-            forces.add(new Vector(0,1f));
+            forces.add(new Vector(0,0.8f));
         }
         if(KeyboardInput.getKey(KeyEvent.VK_A)){
-            forces.add(new Vector(-1f,0));
+            forces.add(new Vector(-0.8f,0));
         }
         if(KeyboardInput.getKey(KeyEvent.VK_D)){
-            forces.add(new Vector(1f,0));
+            forces.add(new Vector(0.8f,0));
         }
         if(KeyboardInput.getKey(KeyEvent.VK_SPACE)){
             jump();
@@ -92,7 +92,6 @@ public class TestPlayer extends GameObject{
         });
         acceleration.set(getSuperposition().multy(1/mass));
         speed.set(speed.add(acceleration));
-        System.out.println(speed);
         position.set(position.add(speed.multy(GameLoop.updateDelta()))); 
     }
     public void jump(){

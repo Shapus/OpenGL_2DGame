@@ -5,6 +5,7 @@
  */
 package org.world;
 
+import java.util.ArrayList;
 import java.util.List;
 import org.engine.GameLoop;
 import org.graphics.Animation;
@@ -89,22 +90,21 @@ public abstract class GameObject{
             float min_height = this.getHeight()/2+ob.getHeight()/2;
             if(Math.abs(radius_vector.x()) <= min_width && Math.abs(radius_vector.y()) <= min_height){
                 //barrier to the top
-                if(radius_vector.y() < 0){
+                if(radius_vector.y() < 0 && Math.abs(radius_vector.x()) < min_width){
                     //System.out.println("barrier to the top");
                     isCollide[0] = true;
                 }
                 //barrier to the right
-                if(radius_vector.x() > 0){
-                    //System.out.println("barrier to the right");
+                if(radius_vector.x() > 0 && Math.abs(radius_vector.y()) < min_height){
                     isCollide[1] = true;
                 }
                 //barrier to the bottom
-                if(radius_vector.y() > 0){
+                if(radius_vector.y() > 0 && Math.abs(radius_vector.x()) < min_width){
                     //System.out.println("barrier to the bottom");
                     isCollide[2] = true;
                 }
                 //barrier to the left
-                if(radius_vector.x() <0){
+                if(radius_vector.x() < 0 && Math.abs(radius_vector.y()) < min_height){
                     //System.out.println("barrier to the left");
                     isCollide[3] = true;
                 }
@@ -119,33 +119,33 @@ public abstract class GameObject{
         float min_height = this.getHeight()/2+ob.getHeight()/2;
         
         
-        if(Math.abs(radius_vector.x()) <= min_width && 
-           Math.abs(radius_vector.y()) <= min_height+Math.abs(speed.y()*GameLoop.updateDelta()) &&
-           Math.abs(radius_vector.y()) >= min_height){
+        if(Math.abs(radius_vector.x()) < min_width && 
+           Math.abs(radius_vector.y()) < min_height+Math.abs(speed.y()*GameLoop.updateDelta()) &&
+           Math.abs(radius_vector.y()) > min_height){
             Vector force;
-            if(speed.y() < 0 && !borderChecked[0]){
+            if(radius_vector.y() < 0 && speed.y()<0 && !borderChecked[0]){
                 borderChecked[0] = true;
-                force = new Vector(0, -speed.y()-radius_vector.y()-min_width);
+                force = new Vector(0, -speed.y()+(radius_vector.y()+ob.getHeight())*(1/GameLoop.updateDelta()));
                 addForce(force.multy(mass));
             }
-            if(speed.y() > 0 && !borderChecked[2]){
+            if(radius_vector.y() > 0 && speed.y()>0 && !borderChecked[2]){
                 borderChecked[2] = true;
-                force = new Vector(0, -speed.y()-radius_vector.y()+min_width);
+                force = new Vector(0, -speed.y()+(radius_vector.y()-ob.getHeight())*(1/GameLoop.updateDelta()));
                 addForce(force.multy(mass));
             }
         }
-        if(Math.abs(radius_vector.y()) <= min_height && 
-           Math.abs(radius_vector.x()) <= min_width+Math.abs(speed.x()*GameLoop.updateDelta()) &&
-           Math.abs(radius_vector.x()) >= min_width){
+        if(Math.abs(radius_vector.y()) < min_height && 
+           Math.abs(radius_vector.x()) < min_width+Math.abs(speed.x()*GameLoop.updateDelta()) &&
+           Math.abs(radius_vector.x()) > min_width){
             Vector force;
-            if(radius_vector.x() > 0 && !borderChecked[3]){
+            if(radius_vector.x() > 0 && speed.x()>0 && !borderChecked[3]){
                 borderChecked[3] = true;
-                force = new Vector(speed.x()*GameLoop.updateDelta()-(radius_vector.x()-width/2), 0);
+                force = new Vector(-speed.x()+(radius_vector.x()-ob.getWidth())*(1/GameLoop.updateDelta()), 0);
                 addForce(force.multy(mass));
             }
-            if(radius_vector.x() < 0 && !borderChecked[1]){
+            if(radius_vector.x() < 0 && speed.x()<0 && !borderChecked[1]){
                 borderChecked[1] = true;
-                force = new Vector(speed.x()*GameLoop.updateDelta()-(radius_vector.x()-width/2), 0);
+                force = new Vector(-speed.x()+(radius_vector.x()+ob.getWidth())*(1/GameLoop.updateDelta()), 0);
                 addForce(force.multy(mass));
             } 
         }

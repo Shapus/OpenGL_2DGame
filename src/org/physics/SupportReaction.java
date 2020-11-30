@@ -26,26 +26,30 @@ public class SupportReaction extends Force{
         Vector normal = new Vector(0,0);
         //barrier to the top
         if(go1.isCollide()[0] && !go1.isCollided[0]){
-            normal.set(0, 1);
+            normal.setY(1);
             go1.isCollided[0] = true;
+            System.out.println("top");
             go1.setSpeedY(0);
         }
         //barrier to the bottom
         if(go1.isCollide()[2] && !go1.isCollided[2]){
-            normal.set(0, -1);
+            normal.setY(-1);
             go1.isCollided[2] = true;
+            System.out.println("bottom");
             go1.setSpeedY(0);
         }
         //barrier to the right
         if(go1.isCollide()[1] && !go1.isCollided[1]){
-            normal.set(-1, 0);
+            normal.setX(-1);
             go1.isCollided[1] = true;
+            System.out.println("right");
             go1.setSpeedX(0);
         }       
         //barrier to the left
         if(go1.isCollide()[3] && !go1.isCollided[3]){
-            normal.set(1,0);
+            normal.setX(1);
             go1.isCollided[3] = true;
+            System.out.println("left");
             go1.setSpeedX(0);
         }
         
@@ -58,8 +62,9 @@ public class SupportReaction extends Force{
                 forcesBuffer.add(force.multy(0, -1));
             }
         }
+        System.out.println(forcesBuffer.size());
         forcesBuffer.forEach(force -> {
-            //go1.addForce(force);
+            go1.addForce(force);
         });
     }
     
