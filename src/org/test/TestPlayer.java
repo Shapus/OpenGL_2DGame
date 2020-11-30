@@ -43,6 +43,14 @@ public class TestPlayer extends GameObject{
     public void update(){
         forces.clear();
         acceleration.set(0,0);
+        for(int i=0; i<isCollided.length;i++){
+            isCollided[i] = false;
+        }
+        for(int i=0; i<borderChecked.length;i++){
+            borderChecked[i] = false;
+        }
+        
+        
         if(KeyboardInput.getKey(KeyEvent.VK_W)){
             forces.add(new Vector(0,-1f));
         }
@@ -67,17 +75,13 @@ public class TestPlayer extends GameObject{
         SupportReaction sr = new SupportReaction();
         Collision c = new Collision();
         
-        //g.impactOn(this);
+        g.impactOn(this);
         for(GameObject go : World.getObjects()){
             if(collide(go)){
                 //System.out.println("collide");
                 //c.impactOn(this);   
-                //sr.react(this, go);
+                sr.react(this, go);
             }
-        }
-        
-        for(int i=0; i<isCollided.length;i++){
-            isCollided[i] = false;
         }
         acceleration.set(getSuperposition().multy(1/mass));
         speed.set(speed.add(acceleration));
@@ -88,6 +92,7 @@ public class TestPlayer extends GameObject{
         });
         acceleration.set(getSuperposition().multy(1/mass));
         speed.set(speed.add(acceleration));
+        System.out.println(speed);
         position.set(position.add(speed.multy(GameLoop.updateDelta()))); 
     }
     public void jump(){

@@ -42,7 +42,8 @@ public abstract class GameObject{
     protected int currentAnimation = 0;    
     //collide variables
     protected boolean[] isCollide;                      //contains info which side this object is collided by (top - right - bottom - left)
-    public boolean[] isCollided;                     //have this object collided by the side?
+    public boolean[] isCollided;                        //have this object collided by the side?
+    public boolean[] borderChecked;                     //have border collision checked?
 
 //=============================== CONSTRUCTORS
     protected GameObject(float x, float y){
@@ -52,11 +53,15 @@ public abstract class GameObject{
         this.acceleration = new Vector(0,0);
         isCollide = new boolean[4];
         isCollided = new boolean[4];
+        borderChecked = new boolean[4];
         for(int i=0; i<isCollided.length;i++){
             isCollided[i] = false;
         }
         for(int i=0; i<isCollide.length;i++){
             isCollide[i] = false;
+        }
+        for(int i=0; i<borderChecked.length;i++){
+            borderChecked[i] = false;
         }
     }
     
@@ -112,30 +117,37 @@ public abstract class GameObject{
         Vector radius_vector = new Vector(ob.x()-x(), ob.y()-y());
         float min_width = this.getWidth()/2+ob.getWidth()/2;
         float min_height = this.getHeight()/2+ob.getHeight()/2;
+        
+        
         if(Math.abs(radius_vector.x()) <= min_width && 
            Math.abs(radius_vector.y()) <= min_height+Math.abs(speed.y()*GameLoop.updateDelta()) &&
            Math.abs(radius_vector.y()) >= min_height){
             Vector force;
-            if(speed.y() < 0){
-                force = new Vector(0, speed.y()*GameLoop.updateDelta() - radius_vector.y() + min_height - acceleration.y());
+            if(speed.y() < 0 && !borderChecked[0]){
+                borderChecked[0] = true;
+                force = new Vector(0, -speed.y()-radius_vector.y()-min_width);
+                addForce(force.multy(mass));
             }
-            else{
-                force = new Vector(0, speed.y()*GameLoop.updateDelta() - radius_vector.y() - min_height - - acceleration.y());
+            if(speed.y() > 0 && !borderChecked[2]){
+                borderChecked[2] = true;
+                force = new Vector(0, -speed.y()-radius_vector.y()+min_width);
+                addForce(force.multy(mass));
             }
-            addForce(force.multy(mass));
-            System.out.println(force);
         }
         if(Math.abs(radius_vector.y()) <= min_height && 
            Math.abs(radius_vector.x()) <= min_width+Math.abs(speed.x()*GameLoop.updateDelta()) &&
            Math.abs(radius_vector.x()) >= min_width){
             Vector force;
-            if(speed.x() < 0){
-                force = new Vector(speed.x()*GameLoop.updateDelta() - radius_vector.x() + min_width - acceleration.x() , 0);
+            if(radius_vector.x() > 0 && !borderChecked[3]){
+                borderChecked[3] = true;
+                force = new Vector(speed.x()*GameLoop.updateDelta()-(radius_vector.x()-width/2), 0);
+                addForce(force.multy(mass));
             }
-            else{
-                force = new Vector(speed.x()*GameLoop.updateDelta() - radius_vector.x() - min_width - acceleration.x(), 0);
-            }
-            addForce(force.multy(mass));
+            if(radius_vector.x() < 0 && !borderChecked[1]){
+                borderChecked[1] = true;
+                force = new Vector(speed.x()*GameLoop.updateDelta()-(radius_vector.x()-width/2), 0);
+                addForce(force.multy(mass));
+            } 
         }
     }
     
