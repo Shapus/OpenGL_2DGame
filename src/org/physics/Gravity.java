@@ -18,7 +18,7 @@ public class Gravity extends Force{
     
     @Override
     public void impactOn(GameObject go){
-        go.addForce(FORCE_VECTOR);
+        go.addForce(FORCE_VECTOR.multy(go.getMass()));
     }
 
     @Override

@@ -27,6 +27,8 @@ public abstract class GameObject{
     protected Vector oldPosition;
     //speeds
     protected Vector speed;
+    //acceleration
+    protected Vector acceleration;
     //forces
     protected List<Vector> forces;
     //size
@@ -47,6 +49,7 @@ public abstract class GameObject{
         this.position = new Vector(x,y);
         this.oldPosition = new Vector(x,y);
         this.speed = new Vector(0,0);
+        this.acceleration = new Vector(0,0);
         isCollide = new boolean[4];
         isCollided = new boolean[4];
         for(int i=0; i<isCollided.length;i++){
@@ -101,13 +104,39 @@ public abstract class GameObject{
                     isCollide[3] = true;
                 }
             }
-            if(Math.abs(radius_vector.x()) <= min_width && Math.abs(radius_vector.y()) <= min_height+Math.abs(speed.y())){
-                System.out.println("eee");
-            }
-            
-            
         }
         return isCollide[0] || isCollide[1] || isCollide[2] || isCollide[3];
+    }
+    
+    public void checkBorderCross(GameObject ob){
+        Vector radius_vector = new Vector(ob.x()-x(), ob.y()-y());
+        float min_width = this.getWidth()/2+ob.getWidth()/2;
+        float min_height = this.getHeight()/2+ob.getHeight()/2;
+        if(Math.abs(radius_vector.x()) <= min_width && 
+           Math.abs(radius_vector.y()) <= min_height+Math.abs(speed.y()*GameLoop.updateDelta()) &&
+           Math.abs(radius_vector.y()) >= min_height){
+            Vector force;
+            if(speed.y() < 0){
+                force = new Vector(0, speed.y()*GameLoop.updateDelta() - radius_vector.y() + min_height - acceleration.y());
+            }
+            else{
+                force = new Vector(0, speed.y()*GameLoop.updateDelta() - radius_vector.y() - min_height - - acceleration.y());
+            }
+            addForce(force.multy(mass));
+            System.out.println(force);
+        }
+        if(Math.abs(radius_vector.y()) <= min_height && 
+           Math.abs(radius_vector.x()) <= min_width+Math.abs(speed.x()*GameLoop.updateDelta()) &&
+           Math.abs(radius_vector.x()) >= min_width){
+            Vector force;
+            if(speed.x() < 0){
+                force = new Vector(speed.x()*GameLoop.updateDelta() - radius_vector.x() + min_width - acceleration.x() , 0);
+            }
+            else{
+                force = new Vector(speed.x()*GameLoop.updateDelta() - radius_vector.x() - min_width - acceleration.x(), 0);
+            }
+            addForce(force.multy(mass));
+        }
     }
     
     
@@ -184,6 +213,9 @@ public abstract class GameObject{
     }
     public List<Vector> getForces(){
         return forces;
+    }
+    public Vector acceleration(){
+        return getSuperposition().multy(1/mass);
     }
     
  

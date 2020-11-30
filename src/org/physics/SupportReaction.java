@@ -59,7 +59,7 @@ public class SupportReaction extends Force{
             }
         }
         forcesBuffer.forEach(force -> {
-            go1.addForce(force);
+            //go1.addForce(force);
         });
     }
     
