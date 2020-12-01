@@ -63,6 +63,9 @@ public class GameLoop {
                         }
                     }
                     MouseInput.updatePosition();
+                    if(!Renderer.getWindowVisible()){
+                        running = false;
+                    }
                 }
             }
         };

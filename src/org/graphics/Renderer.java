@@ -58,7 +58,7 @@ public class Renderer {
         window.addMouseListener(new MouseInput());
         window.addKeyListener(new KeyboardInput());
         window.setVisible(true);
-        window.setDefaultCloseOperation(WindowClosingProtocol.WindowClosingMode.DISPOSE_ON_CLOSE);    
+        window.setDefaultCloseOperation(WindowClosingProtocol.WindowClosingMode.DISPOSE_ON_CLOSE);
     }
        
     //display window
@@ -121,6 +121,9 @@ public class Renderer {
     }
     public static float getCameraY() {
         return cameraY;
+    }
+    public static boolean getWindowVisible(){
+        return window.isVisible();
     }
     
 }
