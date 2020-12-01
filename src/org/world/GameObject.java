@@ -5,7 +5,6 @@
  */
 package org.world;
 
-import java.util.ArrayList;
 import java.util.List;
 import org.engine.GameLoop;
 import org.graphics.Animation;
@@ -45,6 +44,11 @@ public abstract class GameObject{
     protected boolean[] isCollide;                      //contains info which side this object is collided by (top - right - bottom - left)
     public boolean[] isCollided;                        //have this object collided by the side?
     public boolean[] borderChecked;                     //have border collision checked?
+    //elastic force coefficient
+    protected float k = 0.4f;
+    //friction force coefficient
+    protected Vector outer_friction_coeff;
+    protected Vector inner_friction_coeff;
 
 //=============================== CONSTRUCTORS
     protected GameObject(float x, float y){
@@ -55,6 +59,8 @@ public abstract class GameObject{
         isCollide = new boolean[4];
         isCollided = new boolean[4];
         borderChecked = new boolean[4];
+        outer_friction_coeff = new Vector(0.2f, 0.2f);
+        inner_friction_coeff = new Vector(0.01f, 0.01f);
         for(int i=0; i<isCollided.length;i++){
             isCollided[i] = false;
         }
@@ -126,12 +132,14 @@ public abstract class GameObject{
             if(radius_vector.y() < 0 && speed.y()<0 && !borderChecked[0]){
                 borderChecked[0] = true;
                 force = new Vector(0, -speed.y()+(radius_vector.y()+ob.getHeight())*(1/GameLoop.updateDelta()));
-                addForce(force.multy(mass));
+                position = position.add(force.multy(1/mass).multy(GameLoop.updateDelta()));
+                //addForce(force.multy(mass));
             }
             if(radius_vector.y() > 0 && speed.y()>0 && !borderChecked[2]){
                 borderChecked[2] = true;
                 force = new Vector(0, -speed.y()+(radius_vector.y()-ob.getHeight())*(1/GameLoop.updateDelta()));
-                addForce(force.multy(mass));
+                position = position.add(force.multy(1/mass).multy(GameLoop.updateDelta()));
+                //addForce(force.multy(mass));
             }
         }
         if(Math.abs(radius_vector.y()) < min_height && 
@@ -141,12 +149,14 @@ public abstract class GameObject{
             if(radius_vector.x() > 0 && speed.x()>0 && !borderChecked[3]){
                 borderChecked[3] = true;
                 force = new Vector(-speed.x()+(radius_vector.x()-ob.getWidth())*(1/GameLoop.updateDelta()), 0);
-                addForce(force.multy(mass));
+                position = position.add(force.multy(1/mass).multy(GameLoop.updateDelta()));
+                //addForce(force.multy(mass));
             }
             if(radius_vector.x() < 0 && speed.x()<0 && !borderChecked[1]){
                 borderChecked[1] = true;
                 force = new Vector(-speed.x()+(radius_vector.x()+ob.getWidth())*(1/GameLoop.updateDelta()), 0);
-                addForce(force.multy(mass));
+                position = position.add(force.multy(1/mass).multy(GameLoop.updateDelta()));
+                //addForce(force.multy(mass));
             } 
         }
     }
@@ -183,6 +193,15 @@ public abstract class GameObject{
     }
     public float y() {
         return position.y();
+    }
+    public float k() {
+        return k;
+    }
+    public Vector outer_friction_coeff() {
+        return outer_friction_coeff;
+    }
+    public Vector inner_friction_coeff() {
+        return inner_friction_coeff;
     }
     public float getHeight() {
         return height;
@@ -264,6 +283,12 @@ public abstract class GameObject{
     }
     public void setForces(List<Vector> forces){
         this.forces = forces;
+    }
+    public Vector setOuterFrictionCoeff(float x, float y) {
+        return outer_friction_coeff;
+    }
+    public Vector setInnerFrictionCoeff() {
+        return inner_friction_coeff;
     }
     
 }

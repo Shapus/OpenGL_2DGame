@@ -11,10 +11,10 @@ import org.engine.GameLoop;
 import org.graphics.Animation;
 import org.input.KeyboardInput;
 import org.input.MouseInput;
+import org.physics.Friction;
 import org.resource.Loader;
 import org.world.GameObject;
 import org.world.World;
-import org.physics.Collision;
 import org.physics.Vector;
 import org.physics.Gravity;
 import org.physics.SupportReaction;
@@ -43,6 +43,7 @@ public class TestPlayer extends GameObject{
     public void update(){
         forces.clear();
         acceleration.set(0,0);
+        inner_friction_coeff.set(0,0);
         for(int i=0; i<isCollided.length;i++){
             isCollided[i] = false;
         }
@@ -71,16 +72,12 @@ public class TestPlayer extends GameObject{
             speed.set(0,0);
             forces.clear(); 
         }
-        Gravity g = new Gravity();
-        SupportReaction sr = new SupportReaction();
-        Collision c = new Collision();
         
-        g.impactOn(this);
+        new Gravity().impactOn(this);
         for(GameObject go : World.getObjects()){
-            if(collide(go)){
-                //System.out.println("collide");
-                //c.impactOn(this);   
-                sr.react(this, go);
+            if(collide(go)){ 
+                new SupportReaction().react(this, go);
+                //new Friction().impactOn(this);
             }
         }
         acceleration.set(getSuperposition().multy(1/mass));
@@ -90,8 +87,6 @@ public class TestPlayer extends GameObject{
         World.getObjects().stream().forEach((go) -> {
             checkBorderCross(go);
         });
-        acceleration.set(getSuperposition().multy(1/mass));
-        speed.set(speed.add(acceleration));
         position.set(position.add(speed.multy(GameLoop.updateDelta()))); 
     }
     public void jump(){

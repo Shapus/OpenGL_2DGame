@@ -15,7 +15,6 @@ public class Gravity extends Force{
     final private static float G = 0.1f;
     private static final Vector FORCE_VECTOR = new Vector(0, G);
     
-    
     @Override
     public void impactOn(GameObject go){
         go.addForce(FORCE_VECTOR.multy(go.getMass()));
@@ -23,6 +22,5 @@ public class Gravity extends Force{
 
     @Override
     public void react(GameObject go1, GameObject go2) {
-        
     }
 }
