@@ -15,6 +15,7 @@ import org.resource.Loader;
 import org.world.GameObject;
 import org.world.World;
 import org.physics.Collision;
+import org.physics.Friction;
 import org.physics.Vector;
 import org.physics.Gravity;
 import org.physics.SupportReaction;
@@ -43,6 +44,7 @@ public class TestPlayer extends GameObject{
     public void update(){
         forces.clear();
         acceleration.set(0,0);
+        inner_friction_coeff.set(0.01f, 0.01f);
         for(int i=0; i<isCollided.length;i++){
             isCollided[i] = false;
         }
@@ -83,6 +85,7 @@ public class TestPlayer extends GameObject{
                 sr.react(this, go);
             }
         }
+        new Friction().impactOn(this);
         acceleration.set(getSuperposition().multy(1/mass));
         speed.set(speed.add(acceleration));
         

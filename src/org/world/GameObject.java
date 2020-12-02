@@ -45,6 +45,9 @@ public abstract class GameObject{
     protected boolean[] isCollide;                      //contains info which side this object is collided by (top - right - bottom - left)
     public boolean[] isCollided;                        //have this object collided by the side?
     public boolean[] borderChecked;                     //have border collision checked?
+    //friction
+    protected Vector inner_friction_coeff;
+    protected Vector outer_friction_coeff;
 
 //=============================== CONSTRUCTORS
     protected GameObject(float x, float y){
@@ -52,6 +55,8 @@ public abstract class GameObject{
         this.oldPosition = new Vector(x,y);
         this.speed = new Vector(0,0);
         this.acceleration = new Vector(0,0);
+        this.inner_friction_coeff = new Vector(0.01f,0.01f);
+        this.outer_friction_coeff = new Vector(0.2f,0.2f);
         isCollide = new boolean[4];
         isCollided = new boolean[4];
         borderChecked = new boolean[4];
@@ -229,6 +234,12 @@ public abstract class GameObject{
     public Vector acceleration(){
         return getSuperposition().multy(1/mass);
     }
+    public Vector innerFictionCoeff(){
+        return inner_friction_coeff;
+    }
+    public Vector outerFrictionCoeff(){
+        return outer_friction_coeff;
+    }
     
  
 //=============================== SETTERS
@@ -264,6 +275,30 @@ public abstract class GameObject{
     }
     public void setForces(List<Vector> forces){
         this.forces = forces;
+    }
+    public void setInnerFictionCoeff(float x, float y){
+        inner_friction_coeff.set(x, y);
+    }
+    public void setOuterFrictionCoeff(float x, float y){
+        outer_friction_coeff.set(x, y);
+    }
+    public void setInnerFictionCoeff(Vector v){
+        inner_friction_coeff.set(v);
+    }
+    public void setOuterFrictionCoeff(Vector v){
+        outer_friction_coeff.set(v);
+    }
+    public void setInnerFictionCoeffX(float x){
+        inner_friction_coeff.setX(x);
+    }
+    public void setOuterFrictionCoeffX(float x){
+        outer_friction_coeff.setX(x);
+    }
+    public void setInnerFictionCoeffY(float y){
+        inner_friction_coeff.setY(y);
+    }
+    public void setOuterFrictionCoeffY(float y){
+        outer_friction_coeff.setY(y);
     }
     
 }

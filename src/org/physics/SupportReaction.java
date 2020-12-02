@@ -28,29 +28,31 @@ public class SupportReaction extends Force{
         if(go1.isCollide()[0] && !go1.isCollided[0]){
             normal.setY(1);
             go1.isCollided[0] = true;
-            System.out.println("top");
             go1.setSpeedY(0);
+            //go1.setSpeedX(go1.speedX()*0.8f);
+            //go1.addForce(new Vector(-go1.speedX()*0.2f,0));
+            go1.setInnerFictionCoeffX(go2.outerFrictionCoeff().x());
         }
         //barrier to the bottom
         if(go1.isCollide()[2] && !go1.isCollided[2]){
             normal.setY(-1);
             go1.isCollided[2] = true;
-            System.out.println("bottom");
             go1.setSpeedY(0);
+            go1.setInnerFictionCoeffX(go2.outerFrictionCoeff().x());
         }
         //barrier to the right
         if(go1.isCollide()[1] && !go1.isCollided[1]){
             normal.setX(-1);
             go1.isCollided[1] = true;
-            System.out.println("right");
             go1.setSpeedX(0);
+            go1.setInnerFictionCoeffY(go2.outerFrictionCoeff().y());
         }       
         //barrier to the left
         if(go1.isCollide()[3] && !go1.isCollided[3]){
             normal.setX(1);
             go1.isCollided[3] = true;
-            System.out.println("left");
             go1.setSpeedX(0);
+            go1.setInnerFictionCoeffY(go2.outerFrictionCoeff().y());
         }
         
         
@@ -62,7 +64,6 @@ public class SupportReaction extends Force{
                 forcesBuffer.add(force.multy(0, -1));
             }
         }
-        System.out.println(forcesBuffer.size());
         forcesBuffer.forEach(force -> {
             go1.addForce(force);
         });

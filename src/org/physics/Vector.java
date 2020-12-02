@@ -21,6 +21,10 @@ public class Vector {
         this.x = x;
         this.y = y;
     }
+    public Vector(Vector v){
+        this.x = v.x;
+        this.y = v.y;
+    }
     
     
 //=============================== METHODS
