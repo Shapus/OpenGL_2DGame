@@ -14,7 +14,6 @@ import org.input.MouseInput;
 import org.resource.Loader;
 import org.world.GameObject;
 import org.world.World;
-import org.physics.Collision;
 import org.physics.Friction;
 import org.physics.Vector;
 import org.physics.Gravity;
@@ -44,7 +43,7 @@ public class TestPlayer extends GameObject{
     public void update(){
         forces.clear();
         acceleration.set(0,0);
-        inner_friction_coeff.set(0.01f, 0.01f);
+        inner_friction_coeff.set(0.02f, 0.02f);
         for(int i=0; i<isCollided.length;i++){
             isCollided[i] = false;
         }
@@ -73,16 +72,13 @@ public class TestPlayer extends GameObject{
             speed.set(0,0);
             forces.clear(); 
         }
-        Gravity g = new Gravity();
-        SupportReaction sr = new SupportReaction();
-        Collision c = new Collision();
         
-        g.impactOn(this);
+        new Gravity().impactOn(this);
         for(GameObject go : World.getObjects()){
             if(collide(go)){
                 //System.out.println("collide");
                 //c.impactOn(this);   
-                sr.react(this, go);
+                new SupportReaction().react(this, go);
             }
         }
         new Friction().impactOn(this);

@@ -15,7 +15,7 @@ public class Friction extends Force{
 
     @Override
     public void impactOn(GameObject go) {
-        go.addForce(new Vector(go.speed().multy(go.innerFictionCoeff()).multy(-1)));
+        go.addForce(new Vector(go.speed().multy(go.innerFictionCoeff()).multy(-1).multy(go.getMass())));
     }
 
     @Override

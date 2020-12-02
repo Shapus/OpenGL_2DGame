@@ -17,8 +17,8 @@ import org.world.GameObject;
 public class TestBlock extends GameObject{
     public TestBlock(float posX, float posY){
         super(posX, posY);
-        height = 1;
-        width = 1;
+        height = 0.2f;
+        width = 0.2f;
         setAnimations(new ArrayList<>());
         Animation animation = new Animation();
         animation.setFrames(Loader.getImages("wall"));
